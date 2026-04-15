@@ -20,9 +20,10 @@ export default function Navbar() {
     { name: 'Portfolio', href: '#portfolio' },
   ];
 
-  const handleScroll = (e, targetHref) => {
+  const scrollToSection = (e, targetHref) => {
     e.preventDefault();
-    const target = document.querySelector(targetHref);
+    const targetId = targetHref.replace('#', '');
+    const target = document.getElementById(targetId);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
@@ -49,7 +50,7 @@ export default function Navbar() {
             <a 
               key={link.name}
               href={link.href}
-              onClick={(e) => handleScroll(e, link.href)}
+              onClick={(e) => scrollToSection(e, link.href)}
               className={styles.navLink}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
@@ -67,7 +68,7 @@ export default function Navbar() {
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.actionBtn} onClick={(e) => handleScroll(e, '#footer')}>
+          <button className={styles.actionBtn} onClick={(e) => scrollToSection(e, '#footer')}>
             Let's Talk <ArrowRight size={16} className={styles.btnIcon} />
             <div className={styles.btnBorderGlow}></div>
           </button>
@@ -95,12 +96,12 @@ export default function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 className={styles.mobileLink} 
-                onClick={(e) => handleScroll(e, link.href)}
+                onClick={(e) => scrollToSection(e, link.href)}
               >
                 {link.name}
               </a>
             ))}
-            <button className={styles.actionBtnMobile} onClick={(e) => handleScroll(e, '#footer')}> Let's Talk</button>
+            <button className={styles.actionBtnMobile} onClick={(e) => scrollToSection(e, '#footer')}> Let's Talk</button>
           </motion.div>
         )}
       </AnimatePresence>
