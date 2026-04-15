@@ -27,6 +27,11 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-color);
@@ -34,7 +39,13 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure #root handles horizontal overflow instead of body to prevent WebKit scroll lock */
+#root {
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {

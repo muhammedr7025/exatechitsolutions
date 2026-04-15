@@ -20,30 +20,6 @@ export default function Navbar() {
     { name: 'Portfolio', href: '#portfolio' },
   ];
 
-  const scrollToSection = (e, targetHref) => {
-    e.preventDefault();
-    
-    // Update URL organically without native jump
-    if (window.history.pushState) {
-      window.history.pushState(null, null, targetHref);
-    }
-
-    const targetId = targetHref.replace('#', '');
-    const target = document.getElementById(targetId);
-    
-    if (target) {
-      const navbarOffset = 100; // To accommodate floating floating pill
-      const targetPosition = target.getBoundingClientRect().top + window.scrollY - navbarOffset;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-    
-    setMobileMenuOpen(false); // Close mobile menu if open
-  };
-
   return (
     <motion.nav 
       className={styles.navbarWrapper}
@@ -64,7 +40,6 @@ export default function Navbar() {
             <a 
               key={link.name}
               href={link.href}
-              onClick={(e) => scrollToSection(e, link.href)}
               className={styles.navLink}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
@@ -82,10 +57,10 @@ export default function Navbar() {
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.actionBtn} onClick={(e) => scrollToSection(e, '#footer')}>
+          <a href="#footer" className={styles.actionBtn}>
             Let's Talk <ArrowRight size={16} className={styles.btnIcon} />
             <div className={styles.btnBorderGlow}></div>
-          </button>
+          </a>
           
           <button 
             className={styles.mobileMenuBtn} 
@@ -110,12 +85,12 @@ export default function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 className={styles.mobileLink} 
-                onClick={(e) => scrollToSection(e, link.href)}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
               </a>
             ))}
-            <button className={styles.actionBtnMobile} onClick={(e) => scrollToSection(e, '#footer')}> Let's Talk</button>
+            <a href="#footer" className={styles.actionBtnMobile} onClick={() => setMobileMenuOpen(false)}> Let's Talk</a>
           </motion.div>
         )}
       </AnimatePresence>

@@ -95,6 +95,9 @@
   display: inline-flex;
   backdrop-filter: blur(20px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 50;
+  pointer-events: auto;
 }
 
 .tabBtn {
@@ -109,7 +112,8 @@
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
-  z-index: 1;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .tabBtn:hover {
