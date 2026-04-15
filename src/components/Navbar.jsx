@@ -22,11 +22,25 @@ export default function Navbar() {
 
   const scrollToSection = (e, targetHref) => {
     e.preventDefault();
+    
+    // Update URL organically without native jump
+    if (window.history.pushState) {
+      window.history.pushState(null, null, targetHref);
+    }
+
     const targetId = targetHref.replace('#', '');
     const target = document.getElementById(targetId);
+    
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+      const navbarOffset = 100; // To accommodate floating floating pill
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - navbarOffset;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
     }
+    
     setMobileMenuOpen(false); // Close mobile menu if open
   };
 
