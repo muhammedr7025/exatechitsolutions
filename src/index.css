@@ -29,10 +29,11 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 body {
+  overflow-x: hidden;
+  width: 100%;
   font-family: var(--font-sans);
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -41,9 +42,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ensure #root handles horizontal overflow instead of body to prevent WebKit scroll lock */
 #root {
-  overflow-x: hidden;
   position: relative;
   width: 100%;
 }
