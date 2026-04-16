@@ -30,7 +30,7 @@ export default function Hero() {
              className={styles.title}
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+             transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             Architect Your <br className={styles.desktopBreak} />
             <span className={styles.textHighlight}>Digital Future</span>
@@ -38,11 +38,11 @@ export default function Hero() {
 
           <motion.p 
              className={styles.subtitle}
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ duration: 0.8, delay: 0.5 }}
+             initial={{ opacity: 0, y: 15 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-             We develop elite web platforms, intelligent mobile applications, and scalable business automation frameworks for enterprises that demand absolute perfection.
+             We architect elite web platforms, intelligent mobile applications, and scalable business frameworks. Engineered for enterprises that demand absolute perfection.
           </motion.p>
           
           <motion.div 
