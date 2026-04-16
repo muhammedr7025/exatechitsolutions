@@ -128,26 +128,45 @@
 
 .primaryBtn {
   position: relative;
-  background: #fff;
-  color: #000;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  padding: 16px 32px;
+  padding: 18px 40px;
   border-radius: 50px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(77, 184, 72, 0.25);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 .primaryBtn:hover {
-  transform: translateY(-2px) scale(1.02);
-  background: #fafafa;
-  box-shadow: 0 15px 35px rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(77, 184, 72, 0.4);
+  background: linear-gradient(135deg, #5cdc56, var(--primary));
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btnGlow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: skewX(-20deg);
+  animation: swipeShine 4s infinite linear;
+}
+
+@keyframes swipeShine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
 }
 
 .btnIcon {
@@ -159,12 +178,14 @@
 }
 
 .secondaryBtn {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  padding: 16px 32px;
+  padding: 18px 40px;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
@@ -172,7 +193,7 @@
 }
 
 .secondaryBtn:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.3);
   color: #fff;
 }
