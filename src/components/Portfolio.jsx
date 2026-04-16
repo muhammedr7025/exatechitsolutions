@@ -11,7 +11,7 @@ const portfolioData = {
     { name: "PulseTap", url: "https://pulsetap.in", type: 'web' },
     { name: "WackoPix", url: "https://wackopix.com", type: 'web' },
     { name: "Salooms", url: "https://salooms.org", type: 'web' },
-    { name: "LetMeGoo App Site", url: "https://letmegoo.app", type: 'web' },
+    { name: "LetMeGoo App Site", url: "https://letmegoo.com", type: 'web' },
     { name: "4Geverse Shop", url: "https://www.4geverse.com/shop", type: 'web' },
     { name: "Rogue Roar", url: "https://www.rogueroar.com/", type: 'web' },
     { name: "MuLearn STIS", url: "https://mulearn.stisttvm.edu.in/", type: 'web' },
