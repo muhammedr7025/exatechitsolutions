@@ -57,7 +57,12 @@ export default function Navbar() {
         </div>
 
         <div className={styles.actions}>
-          <a href="#footer" className={styles.actionBtn}>
+          <a 
+            href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.actionBtn}
+          >
             Let's Talk <ArrowRight size={16} className={styles.btnIcon} />
             <div className={styles.btnBorderGlow}></div>
           </a>
@@ -90,7 +95,15 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            <a href="#footer" className={styles.actionBtnMobile} onClick={() => setMobileMenuOpen(false)}> Let's Talk</a>
+            <a 
+              href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.actionBtnMobile} 
+              onClick={() => setMobileMenuOpen(false)}
+            > 
+              Let's Talk
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

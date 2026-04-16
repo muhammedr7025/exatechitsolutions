@@ -17,9 +17,14 @@ export default function Footer() {
           <p className={styles.ctaDesc}>
             Deploy elite IT solutions, scalable software, and intelligent automation built precisely for your enterprise. Let's engineer your digital future.
           </p>
-          <button className={styles.ctaButton}>
+          <a 
+            href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.ctaButton}
+          >
             Initiate Project <ArrowRight size={20} className={styles.btnArrow} />
-          </button>
+          </a>
         </div>
 
         {/* Footer Grid */}

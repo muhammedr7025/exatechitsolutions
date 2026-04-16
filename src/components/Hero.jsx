@@ -51,13 +51,18 @@ export default function Hero() {
              animate={{ opacity: 1, scale: 1 }}
              transition={{ duration: 0.6, delay: 0.6 }}
           >
-             <button className={styles.primaryBtn}>
+             <a 
+               href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level." 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className={styles.primaryBtn}
+             >
                Start Innovating <ChevronRight size={18} className={styles.btnIcon} />
                <div className={styles.btnGlow}></div>
-             </button>
-             <button className={styles.secondaryBtn}>
+             </a>
+             <a href="#services" className={styles.secondaryBtn}>
                <Sparkles size={16} /> Explore Engine
-             </button>
+             </a>
           </motion.div>
         </div>
 
