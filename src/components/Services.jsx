@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Monitor, Smartphone, Mic, BookOpen, TrendingUp, Cpu, Server, Activity, ShoppingCart, BarChart3, ArrowRight, Zap, FileText, CheckCircle, Users, Globe, ClipboardList, Handshake, Code, Palette, Rocket, Shield, Target, Search, PenTool, Layers, Settings, HeadphonesIcon, Phone } from 'lucide-react';
 import styles from './Services.module.css';
+import { whatsappLink } from '../whatsapp';
 
 // ========== DETAILED CONTENT DATA ==========
 const detailedContent = {
@@ -51,7 +52,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Get Started', msg: 'Data%20Transcription%20and%20Processing' },
+    cta: { text: 'Get Started', msg: 'Data Transcription and Processing' },
   },
 
   // 2. Web Development
@@ -100,7 +101,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Start Your Project', msg: 'Web%20Development%20services' },
+    cta: { text: 'Start Your Project', msg: 'Web Development services' },
   },
 
   // 3. App Development
@@ -149,7 +150,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Build Your App', msg: 'App%20Development%20services' },
+    cta: { text: 'Build Your App', msg: 'App Development services' },
   },
 
   // 4. AI Tools & Software
@@ -198,7 +199,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Explore AI Solutions', msg: 'AI%20Tools%20and%20Software%20services' },
+    cta: { text: 'Explore AI Solutions', msg: 'AI Tools and Software services' },
   },
 
   // 5. Custom ERP
@@ -247,7 +248,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Plan Your ERP', msg: 'Custom%20ERP%20services' },
+    cta: { text: 'Plan Your ERP', msg: 'Custom ERP services' },
   },
 
   // 6. E-Commerce
@@ -296,7 +297,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Launch Your Store', msg: 'E-Commerce%20Development%20services' },
+    cta: { text: 'Launch Your Store', msg: 'E-Commerce Development services' },
   },
 
   // 7. Digital Marketing
@@ -345,7 +346,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Grow Your Brand', msg: 'Digital%20Marketing%20services' },
+    cta: { text: 'Grow Your Brand', msg: 'Digital Marketing services' },
   },
 
   // 8. Data Analytics
@@ -394,7 +395,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Unlock Insights', msg: 'Data%20Analytics%20services' },
+    cta: { text: 'Unlock Insights', msg: 'Data Analytics services' },
   },
 
   // 9. Process Automation
@@ -443,7 +444,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Automate Now', msg: 'Process%20Automation%20services' },
+    cta: { text: 'Automate Now', msg: 'Process Automation services' },
   },
 
   // 10. Voice Agent
@@ -492,7 +493,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Deploy Voice AI', msg: 'Voice%20Agent%20services' },
+    cta: { text: 'Deploy Voice AI', msg: 'Voice Agent services' },
   },
 
   // 11. Voice Process
@@ -541,7 +542,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Hire Our Team', msg: 'Voice%20Process%20services' },
+    cta: { text: 'Hire Our Team', msg: 'Voice Process services' },
   },
 
   // 12. E-Publishing
@@ -590,7 +591,7 @@ const detailedContent = {
         ],
       },
     ],
-    cta: { text: 'Publish Now', msg: 'E-Publishing%20services' },
+    cta: { text: 'Publish Now', msg: 'E-Publishing services' },
   },
 };
 
@@ -643,7 +644,7 @@ function DetailedSection({ content }) {
       </div>
 
       <a
-        href={`https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20interested%20in%20your%20${content.cta.msg}.`}
+        href={whatsappLink(`Hello Exatech IT Solutions, I am interested in your ${content.cta.msg}.`)}
         target="_blank"
         rel="noopener noreferrer"
         className={styles.exploreBtn}
@@ -752,8 +753,8 @@ export default function Services() {
                         <div className={styles.bodyContent}>
                           <div className={styles.bodyText}>
                             <p className={styles.desc}>{service.desc}</p>
-                            <a 
-                              href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+                            <a
+                              href={whatsappLink()}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={styles.exploreBtn}

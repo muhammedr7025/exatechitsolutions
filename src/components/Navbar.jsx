@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import styles from './Navbar.module.css';
+import { whatsappLink } from '../whatsapp';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -58,7 +59,7 @@ export default function Navbar() {
 
         <div className={styles.actions}>
           <a 
-            href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+            href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.actionBtn}
@@ -96,7 +97,7 @@ export default function Navbar() {
               </a>
             ))}
             <a 
-              href="https://wa.me/919995066663?text=Hello%20Exatech%20IT%20Solutions,%20I%20am%20ready%20to%20engineer%20my%20business%20to%20the%20next%20level."
+              href={whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.actionBtnMobile} 
