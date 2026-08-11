@@ -72,6 +72,14 @@ ul {
   border-radius: 16px;
 }
 
+.highlight {
+  color: var(--primary);
+  font-weight: 700;
+  background: rgba(77, 184, 72, 0.12);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--primary), #86e082);
   -webkit-background-clip: text;

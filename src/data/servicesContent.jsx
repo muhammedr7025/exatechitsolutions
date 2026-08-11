@@ -1,11 +1,23 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Monitor, Smartphone, Mic, BookOpen, TrendingUp, Cpu, Server, Activity, ShoppingCart, BarChart3, ArrowRight, Zap, FileText, CheckCircle, Users, Globe, ClipboardList, Handshake, Code, Palette, Rocket, Shield, Target, Search, PenTool, Layers, Settings, HeadphonesIcon, Phone } from 'lucide-react';
-import styles from './Services.module.css';
-import { whatsappLink } from '../whatsapp';
+import { Monitor, Smartphone, Mic, BookOpen, TrendingUp, Cpu, Server, Activity, ShoppingCart, BarChart3, FileText, CheckCircle, Users, Globe, ClipboardList, Handshake, Code, Palette, Rocket, Shield, Target, Search, PenTool, Layers, Settings, HeadphonesIcon, Phone } from 'lucide-react';
+
+// ========== SERVICES LIST (nav / index cards) ==========
+export const servicesList = [
+  { id: '1', slug: 'data-transcription', title: "Data Transcription & Data Processing", teaser: "Multilingual transcription and data processing at scale, with a 60-strong team ready on day one.", icon: <FileText size={42} />, bg: "/bg-ai.png" },
+  { id: '2', slug: 'web-development', title: "Web Development", teaser: "High-performance, SEO-optimized web platforms built with modern frameworks.", icon: <Monitor size={42} />, bg: "/bg-web.png" },
+  { id: '3', slug: 'app-development', title: "App Development", teaser: "Native and cross-platform mobile apps engineered for seamless UX.", icon: <Smartphone size={42} />, bg: "/bg-web.png" },
+  { id: '4', slug: 'ai-tools', title: "AI Tools & Software", icon: <Cpu size={42} />, teaser: "Custom AI-powered software that automates workflows and unlocks new revenue.", bg: "/bg-ai.png" },
+  { id: '5', slug: 'custom-erp', title: "Custom ERP", teaser: "Unified ERP systems tailored to your finance, HR, and supply chain workflows.", icon: <Server size={42} />, bg: "/bg-erp.png" },
+  { id: '6', slug: 'data-analytics', title: "Data Analytics", teaser: "Turn raw data into dashboards, forecasts, and decisions you can act on.", icon: <BarChart3 size={42} />, bg: "/bg-ai.png" },
+  { id: '7', slug: 'process-automation', title: "Process Automation", teaser: "RPA and workflow automation that cuts manual work and errors.", icon: <Activity size={42} />, bg: "/bg-erp.png" },
+  { id: '8', slug: 'voice-agent', title: "Voice Agent", teaser: "AI voice agents that handle customer calls 24/7 in 15+ languages.", icon: <Mic size={42} />, bg: "/bg-ai.png" },
+  { id: '9', slug: 'ecommerce', title: "E-Commerce", teaser: "High-converting storefronts and marketplaces built to scale revenue.", icon: <ShoppingCart size={42} />, bg: "/bg-web.png" },
+  { id: '10', slug: 'digital-marketing', title: "Digital Marketing", teaser: "Data-driven SEO, paid media, and content strategies that grow your brand.", icon: <TrendingUp size={42} />, bg: "/bg-web.png" },
+  { id: '11', slug: 'voice-process', title: "Voice Process", teaser: "Trained voice agents for inbound, outbound, and blended support.", icon: <Mic size={42} />, bg: "/bg-ai.png" },
+  { id: '12', slug: 'e-publishing', title: "E-Publishing", teaser: "End-to-end digital publishing, from manuscript to global distribution.", icon: <BookOpen size={42} />, bg: "/bg-web.png" },
+];
 
 // ========== DETAILED CONTENT DATA ==========
-const detailedContent = {
+export const detailedContent = {
   // 1. Data Transcription & Data Processing
   'data-transcription': {
     intro: <>We hereby submit the details of our team members who are ready and capable of contributing to the <strong>French, English, Spanish, Philippines</strong> transcription, handwritten data conversion, and data processing project.</>,
@@ -29,7 +41,7 @@ const detailedContent = {
         title: 'Transcription & Data Processing Capacity',
         items: [
           <><strong>Minimum Contribution per Member:</strong> 30,000 characters per Head/Day</>,
-          <><strong>Estimated Minimum Total Output:</strong> 60 members × 30,000 characters = <span className={styles.highlight}>18,00,000+ characters / Day</span></>,
+          <><strong>Estimated Minimum Total Output:</strong> 60 members × 30,000 characters = <span className="highlight">18,00,000+ characters / Day</span></>,
           <>Higher contributions are possible depending on project requirements and deadlines with quality</>,
         ],
       },
@@ -594,190 +606,3 @@ const detailedContent = {
     cta: { text: 'Publish Now', msg: 'E-Publishing services' },
   },
 };
-
-// ========== SERVICES LIST ==========
-const servicesList = [
-  { id: '1', key: 'data-transcription', title: "Data Transcription & Data Processing", icon: <FileText size={42} />, bg: "/bg-ai.png" },
-  { id: '2', key: 'web-development', title: "Web Development", icon: <Monitor size={42} />, bg: "/bg-web.png" },
-  { id: '3', key: 'app-development', title: "App Development", icon: <Smartphone size={42} />, bg: "/bg-web.png" },
-  { id: '4', key: 'ai-tools', title: "AI Tools & Software", icon: <Cpu size={42} />, bg: "/bg-ai.png" },
-  { id: '5', key: 'custom-erp', title: "Custom ERP", icon: <Server size={42} />, bg: "/bg-erp.png" },
-  { id: '6', key: 'data-analytics', title: "Data Analytics", icon: <BarChart3 size={42} />, bg: "/bg-ai.png" },
-  { id: '7', key: 'process-automation', title: "Process Automation", icon: <Activity size={42} />, bg: "/bg-erp.png" },
-  { id: '8', key: 'voice-agent', title: "Voice Agent", icon: <Mic size={42} />, bg: "/bg-ai.png" },
-  { id: '9', key: 'ecommerce', title: "E-Commerce", icon: <ShoppingCart size={42} />, bg: "/bg-web.png" },
-  { id: '10', key: 'digital-marketing', title: "Digital Marketing", icon: <TrendingUp size={42} />, bg: "/bg-web.png" },
-  { id: '11', key: 'voice-process', title: "Voice Process", icon: <Mic size={42} />, bg: "/bg-ai.png" },
-  { id: '12', key: 'e-publishing', title: "E-Publishing", icon: <BookOpen size={42} />, bg: "/bg-web.png" },
-];
-
-// ========== DETAILED SECTION RENDERER ==========
-function DetailedSection({ content }) {
-  return (
-    <div className={styles.detailedBody}>
-      <p className={styles.detailedIntro}>{content.intro}</p>
-
-      <div className={styles.statsRow}>
-        {content.stats.map((stat, i) => (
-          <div className={styles.statCard} key={i}>
-            <span className={styles.statIcon}>{stat.icon}</span>
-            <span className={styles.statValue}>{stat.value}</span>
-            <span className={styles.statLabel}>{stat.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className={styles.detailedGrid}>
-        {content.sections.map((section, i) => (
-          <div className={styles.detailCard} key={i}>
-            <div className={styles.detailCardHeader}>
-              <span className={styles.detailIcon}>{section.icon}</span>
-              <h4>{section.title}</h4>
-            </div>
-            <ul className={styles.detailList}>
-              {section.items.map((item, j) => (
-                <li key={j}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <a
-        href={whatsappLink(`Hello Exatech IT Solutions, I am interested in your ${content.cta.msg}.`)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.exploreBtn}
-      >
-        {content.cta.text} <ArrowRight size={18} />
-      </a>
-    </div>
-  );
-}
-
-// ========== MAIN COMPONENT ==========
-export default function Services() {
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  return (
-    <section id="services" className={`section ${styles.servicesSection}`}>
-      
-      {/* CINEMATIC FULL-SCREEN BACKGROUND */}
-      <div className={styles.bgViewport}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIdx}
-            className={styles.bgImage}
-            style={{ backgroundImage: `url(${servicesList[activeIdx].bg})` }}
-            initial={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
-            animate={{ opacity: 0.8, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
-        </AnimatePresence>
-        <div className={styles.bgOverlay}></div>
-      </div>
-
-      <div className={`container ${styles.contentWrapper}`}>
-        
-        {/* Title Header */}
-        <div className={styles.headerBlock}>
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={styles.sectionBadge}
-          >
-             <Zap size={14} /> Core Capabilities
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={styles.sectionTitle}
-          >
-            Digital <span className="text-gradient">Evolution.</span>
-          </motion.h2>
-        </div>
-
-        {/* Cinematic Accordion List */}
-        <div className={styles.accList}>
-          {servicesList.map((service, idx) => {
-            const isActive = activeIdx === idx;
-            const content = detailedContent[service.key];
-            
-            return (
-              <motion.div 
-                key={service.id}
-                className={`${styles.accItem} ${isActive ? styles.accItemActive : ''}`}
-                onMouseEnter={() => setActiveIdx(idx)}
-                onClick={() => setActiveIdx(idx)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-              >
-                <div className={styles.itemHeader}>
-                  <div className={styles.itemTitleGroup}>
-                    <span className={styles.itemNum}>
-                      {service.id.padStart(2, '0')}
-                    </span>
-                    <h3 className={styles.itemTitle}>
-                      {service.title}
-                    </h3>
-                  </div>
-                  
-                  <div className={styles.toggleIcon}>
-                    <motion.div 
-                      animate={{ rotate: isActive ? 45 : 0 }} 
-                      transition={{ duration: 0.3 }}
-                      className={styles.cross}
-                    >
-                      +
-                    </motion.div>
-                  </div>
-                </div>
-
-                <AnimatePresence>
-                  {isActive && (
-                    <motion.div 
-                      className={styles.itemBody}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: "circOut" }}
-                    >
-                      {content ? (
-                        <DetailedSection content={content} />
-                      ) : (
-                        <div className={styles.bodyContent}>
-                          <div className={styles.bodyText}>
-                            <p className={styles.desc}>{service.desc}</p>
-                            <a
-                              href={whatsappLink()}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={styles.exploreBtn}
-                            >
-                              Deploy Initiative <ArrowRight size={18} />
-                            </a>
-                          </div>
-                          <div className={styles.bodyVisual}>
-                            <div className={styles.iconWrapper}>
-                              {service.icon}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
-
-      </div>
-    </section>
-  );
-}

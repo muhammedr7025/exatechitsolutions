@@ -1,6 +1,7 @@
 .portfolioSection {
   background: var(--bg-color);
-  padding: 120px 0;
+  padding: 180px 0 120px;
+  min-height: 100vh;
   position: relative;
   overflow: hidden;
 }
@@ -474,6 +475,7 @@
 }
 
 @media (max-width: 768px) {
+  .portfolioSection { padding-top: 140px; }
   .sectionTitle { font-size: 3rem; }
   .tabsContainer { flex-direction: column; width: 100%; border-radius: 20px;}
   .tabBtn { border-radius: 12px; }

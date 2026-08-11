@@ -1,34 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Play, Apple, ExternalLink, X, Maximize2, Sparkles } from 'lucide-react';
-import styles from './Portfolio.module.css';
+import { portfolioData } from '../data/portfolioData';
+import { usePageMeta } from '../hooks/usePageMeta';
+import styles from './PortfolioPage.module.css';
 
-const portfolioData = {
-  websites: [
-    { name: "Olympus MuLearn", url: "https://olympus.mulearn.org", type: 'web' },
-    { name: "Exatech Learning", url: "https://www.exatechlearninghub.com", type: 'web' },
-    { name: "Thanima Beauty", url: "https://thanimabeautylounge.com", type: 'web' },
-    { name: "PulseTap", url: "https://pulsetap.in", type: 'web' },
-    { name: "WackoPix", url: "https://wackopix.com", type: 'web' },
-    { name: "Salooms", url: "https://salooms.org", type: 'web' },
-    { name: "LetMeGoo App Site", url: "https://letmegoo.com", type: 'web' },
-    { name: "4Geverse Shop", url: "https://www.4geverse.com/shop", type: 'web' },
-    { name: "Rogue Roar", url: "https://www.rogueroar.com/", type: 'web' },
-    { name: "MuLearn STIS", url: "https://mulearn.stisttvm.edu.in/", type: 'web' },
-  ],
-  playstore: [
-    { name: "LetMeGoo", url: "https://play.google.com/store/apps/details?id=com.letmegoo.app", type: 'app' },
-    { name: "Finnet Finance", url: "https://play.google.com/store/apps/details?id=app.finnet.financeuserapp", type: 'app' },
-    { name: "Kerala Olympic", url: "https://play.google.com/store/apps/details?id=org.keralaolympic.koaupdates", type: 'app' },
-  ],
-  appstore: [
-    { name: "Finnet Finance", url: "https://apps.apple.com/in/app/finnet-finance/id6756836995", type: 'app' },
-    { name: "LetMeGoo", url: "https://apps.apple.com/in/app/letmegoo/id6751348254", type: 'app' },
-    { name: "Great Trivandrums", url: "https://apps.apple.com/in/app/great-trivandrums/id6752885178", type: 'app' },
-  ]
-};
+export default function PortfolioPage() {
+  usePageMeta(
+    'Portfolio',
+    'A showcase of web platforms and mobile apps delivered by Exatech IT Solutions.'
+  );
 
-export default function Portfolio() {
   const [activeTab, setActiveTab] = useState('websites');
   const [selectedProject, setSelectedProject] = useState(null);
   const [iframeLoading, setIframeLoading] = useState(true);
@@ -54,8 +36,8 @@ export default function Portfolio() {
   };
 
   return (
-    <section id="portfolio" className={`section ${styles.portfolioSection}`}>
-      
+    <section className={`section ${styles.portfolioSection}`}>
+
       {/* Dynamic Grid Background overlay */}
       <div className={styles.sectionGridBg}></div>
       <div className={styles.ambientGlowPrimary}></div>
@@ -63,7 +45,7 @@ export default function Portfolio() {
 
       <div className={`container ${styles.contentWrapper}`}>
         <div className={styles.headerBlock}>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -71,15 +53,15 @@ export default function Portfolio() {
           >
              <Sparkles size={14} className={styles.badgeIcon} /> Work Gallery
           </motion.div>
-          <motion.h2 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, delay: 0.1 }}
             className={styles.sectionTitle}
           >
             Digital <span className="text-gradient">Ecosystems.</span>
-          </motion.h2>
-          <motion.p 
+          </motion.h1>
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, delay: 0.2 }}
@@ -123,7 +105,7 @@ export default function Portfolio() {
               >
                 {/* 1px Rotating Beam Layer */}
                 <div className={styles.beamBorder}></div>
-                
+
                 {/* Visual Glass Inner Card */}
                 <div className={styles.innerCard}>
                   <div className={styles.cardHeader}>
@@ -134,8 +116,8 @@ export default function Portfolio() {
                   </div>
 
                   <div className={styles.thumbnailWrapper}>
-                    <img 
-                      src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url`} 
+                    <img
+                      src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url`}
                       alt={`${project.name} Preview`}
                       className={styles.thumbnailImg}
                       loading="lazy"
@@ -145,11 +127,11 @@ export default function Portfolio() {
 
                   <div className={styles.cardBody}>
                     <h3 className={styles.projectName}>{project.name}</h3>
-                    
-                    <motion.div 
+
+                    <motion.div
                         className={styles.previewBtn}
                         variants={{
-                            hover: { 
+                            hover: {
                                 boxShadow: "0px 10px 40px rgba(77, 184, 72, 0.4)",
                                 background: "var(--primary)",
                                 color: "#000",
@@ -161,7 +143,7 @@ export default function Portfolio() {
                       <Maximize2 size={16} /> Init Simulation
                     </motion.div>
                   </div>
-                  
+
                   {/* Subtle hover mesh gradient inside the card */}
                   <div className={styles.innerGlow}></div>
                 </div>
@@ -175,22 +157,22 @@ export default function Portfolio() {
       {/* Live Preview Modal Overlay */}
       <AnimatePresence>
         {selectedProject && (
-          <motion.div 
+          <motion.div
             className={styles.modalBackdrop}
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(25px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             onClick={() => setSelectedProject(null)}
           >
-            <motion.div 
+            <motion.div
               className={styles.modalDeviceWindow}
               initial={{ opacity: 0, scale: 0.8, y: 60, rotateX: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 40, rotateX: -10 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-              onClick={(e) => e.stopPropagation()} 
+              onClick={(e) => e.stopPropagation()}
             >
-              
+
               {/* Glowing aura around modal */}
               <div className={styles.modalAura}></div>
 
@@ -201,16 +183,16 @@ export default function Portfolio() {
                   <span></span>
                   <span className={styles.fullBtn}><Maximize2 size={10} /></span>
                 </div>
-                
+
                 <div className={styles.addressBar}>
                   <Globe size={14} className={styles.securityIcon} />
                   {selectedProject.url}
                 </div>
 
-                <a 
-                  href={selectedProject.url} 
-                  target="_blank" 
-                  rel="noreferrer" 
+                <a
+                  href={selectedProject.url}
+                  target="_blank"
+                  rel="noreferrer"
                   className={styles.externalLinkBtn}
                   title="Open externally"
                 >
@@ -227,8 +209,8 @@ export default function Portfolio() {
                       <span className={styles.corsWarning}>If simulation fails, advanced security headers blocked embedding. Utilize the external link.</span>
                    </div>
                 )}
-                <iframe 
-                  src={selectedProject.url} 
+                <iframe
+                  src={selectedProject.url}
                   className={styles.previewIframe}
                   sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                   onLoad={() => setIframeLoading(false)}

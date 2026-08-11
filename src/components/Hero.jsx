@@ -1,33 +1,35 @@
 import { motion } from 'framer-motion';
-import { ChevronRight, ArrowDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
+import HeroVisual from './home/HeroVisual';
 import styles from './Hero.module.css';
 import { whatsappLink } from '../whatsapp';
 
 export default function Hero() {
   return (
-    <section id="home" className={styles.heroSection}>
+    <section className={styles.heroSection}>
       {/* Immersive Cinematic Background */}
       <div className={styles.ambientGlowPrimary}></div>
       <div className={styles.textureOverlay}></div>
 
       <div className={`container ${styles.containerView}`}>
-        <motion.div 
+        <motion.div
           className={styles.contentWrapper}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.div 
+          <motion.div
             className={styles.statusBadge}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className={styles.statusDot}></span> 
+            <span className={styles.statusDot}></span>
             <span className={styles.statusText}>EXATECH ENGINEERING</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
              className={styles.title}
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
@@ -37,7 +39,7 @@ export default function Hero() {
             <span className={styles.textHighlight}>Digital Future</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
              className={styles.subtitle}
              initial={{ opacity: 0, y: 15 }}
              animate={{ opacity: 1, y: 0 }}
@@ -45,8 +47,8 @@ export default function Hero() {
           >
              We architect elite web platforms, intelligent mobile applications, and scalable business frameworks. Engineered for enterprises that demand absolute perfection.
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
              className={styles.ctaGroup}
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
@@ -55,27 +57,31 @@ export default function Hero() {
              <a
                href={whatsappLink()}
                target="_blank"
-               rel="noopener noreferrer" 
+               rel="noopener noreferrer"
                className={styles.primaryBtn}
              >
                Start Innovating <ChevronRight size={18} className={styles.btnIcon} />
                <div className={styles.btnGlow}></div>
              </a>
-             <a href="#services" className={styles.secondaryBtn}>
+             <Link to="/services" className={styles.secondaryBtn}>
                Explore Engine
-             </a>
+             </Link>
           </motion.div>
         </motion.div>
 
+        <div className={styles.visualCol}>
+          <HeroVisual />
+        </div>
+
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           className={styles.scrollIndicator}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
           <div className={styles.mouse}>
-             <motion.div 
+             <motion.div
                 className={styles.wheel}
                 animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

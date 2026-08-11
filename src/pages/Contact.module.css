@@ -1,0 +1,151 @@
+.contactSection {
+  padding-top: 180px;
+  min-height: 100vh;
+  background: #030305;
+  color: #fff;
+}
+
+.headerBlock {
+  max-width: 680px;
+  margin: 0 auto 4rem;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: rgba(77, 184, 72, 0.15);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(77, 184, 72, 0.4);
+}
+
+.title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.25rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.whatsappCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: linear-gradient(160deg, rgba(77, 184, 72, 0.15), rgba(77, 184, 72, 0.02));
+  border: 1px solid rgba(77, 184, 72, 0.35);
+  border-radius: 20px;
+  padding: 2.25rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.whatsappCard:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(77, 184, 72, 0.15);
+}
+
+.whatsappIcon {
+  color: var(--primary);
+  background: rgba(77, 184, 72, 0.15);
+  border-radius: 14px;
+  padding: 12px;
+  display: inline-flex;
+  width: fit-content;
+}
+
+.whatsappCard h3 {
+  font-size: 1.35rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.whatsappCard p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.whatsappArrow {
+  position: absolute;
+  top: 2.25rem;
+  right: 2.25rem;
+  color: var(--primary);
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.detailCard {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.detailCard:last-child {
+  grid-column: span 2;
+}
+
+.detailCard:hover {
+  border-color: rgba(77, 184, 72, 0.4);
+  background: rgba(77, 184, 72, 0.06);
+  transform: translateY(-3px);
+}
+
+.detailIcon {
+  color: var(--primary);
+  background: rgba(77, 184, 72, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.detailCard strong {
+  font-size: 0.95rem;
+}
+
+.detailCard span {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .contactSection { padding-top: 140px; }
+  .title { font-size: 2.25rem; }
+  .grid { grid-template-columns: 1fr; }
+  .detailsGrid { grid-template-columns: 1fr; }
+  .detailCard:last-child { grid-column: span 1; }
+}
