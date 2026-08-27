@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Zap } from 'lucide-react';
 import { servicesList, detailedContent } from '../data/servicesContent';
+import { subServicesData } from '../data/subServicesData';
 import { whatsappLink } from '../whatsapp';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './ServiceDetail.module.css';
@@ -11,6 +12,7 @@ export default function ServiceDetail() {
   const { slug } = useParams();
   const service = servicesList.find((s) => s.slug === slug);
   const content = detailedContent[slug];
+  const subServices = subServicesData[slug] || [];
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
@@ -85,6 +87,57 @@ export default function ServiceDetail() {
               </motion.div>
             ))}
           </div>
+
+          {/* Sub-Services Section */}
+          {subServices.length > 0 && (
+            <div className={styles.subServicesBlock}>
+              <motion.div
+                className={styles.subServicesHeader}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <span className={styles.subServicesBadge}>
+                  <Zap size={14} /> Specialized Areas
+                </span>
+                <h2 className={styles.subServicesTitle}>
+                  Explore Our <span className="text-gradient">Sub-Services</span>
+                </h2>
+                <p className={styles.subServicesDesc}>
+                  Dive deeper into each specialized area within {service.title}.
+                </p>
+              </motion.div>
+
+              <div className={styles.subServicesGrid}>
+                {subServices.map((sub, i) => (
+                  <motion.div
+                    key={sub.slug}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                  >
+                    <Link
+                      to={`/services/${slug}/${sub.slug}`}
+                      className={styles.subServiceCard}
+                    >
+                      <div className={styles.subServiceIconBox}>
+                        {sub.icon}
+                      </div>
+                      <div className={styles.subServiceContent}>
+                        <h3 className={styles.subServiceCardTitle}>{sub.title}</h3>
+                        <p className={styles.subServiceTeaser}>{sub.teaser}</p>
+                        <span className={styles.subServiceLink}>
+                          Learn More <ArrowRight size={14} />
+                        </span>
+                      </div>
+                      <div className={styles.subServiceGlow}></div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className={styles.detailGrid}>
             {content.sections.map((sec, i) => (

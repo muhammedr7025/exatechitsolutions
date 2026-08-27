@@ -13,7 +13,11 @@ export const structure = (S) =>
         .id('aboutPage')
         .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
       S.divider(),
+      S.documentTypeListItem('service').title('Services'),
+      S.documentTypeListItem('subService').title('Sub-Services'),
+      S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) => !['siteSettings', 'aboutPage'].includes(item.getId())
+        (item) => !['siteSettings', 'aboutPage', 'service', 'subService'].includes(item.getId())
       ),
     ]);
+

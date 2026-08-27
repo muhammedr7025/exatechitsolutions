@@ -1,0 +1,348 @@
+/* ── Hero ── */
+.heroSection {
+  position: relative;
+  min-height: 52vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #030305;
+  padding-top: 120px;
+}
+
+.heroGlow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(77, 184, 72, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heroBgImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+}
+
+.heroBgOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(5, 5, 8, 0.55) 0%, rgba(5, 5, 8, 0.97) 100%),
+              linear-gradient(0deg, rgba(3, 3, 5, 1) 0%, rgba(3, 3, 5, 0.3) 60%);
+  z-index: 2;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 5;
+  padding-bottom: 3rem;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumbLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: var(--primary);
+}
+
+.breadcrumbSep {
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.breadcrumbCurrent {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.heroIconWrapper {
+  color: var(--primary);
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(77, 184, 72, 0.3);
+  box-shadow: 0 0 40px rgba(77, 184, 72, 0.15);
+  padding: 18px;
+  border-radius: 18px;
+  display: inline-flex;
+  margin-bottom: 1.25rem;
+  backdrop-filter: blur(10px);
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  max-width: 750px;
+  margin-bottom: 1rem;
+}
+
+.heroTeaser {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 650px;
+}
+
+/* ── Features Section ── */
+.featuresSection {
+  background: #030305;
+  padding-top: 60px;
+}
+
+.featuresHeader {
+  margin-bottom: 3rem;
+}
+
+.sectionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 24px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: rgba(77, 184, 72, 0.1);
+  border: 1px solid rgba(77, 184, 72, 0.25);
+  margin-bottom: 1rem;
+}
+
+.featuresTitle {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.featureCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 1.75rem;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featureCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(77, 184, 72, 0.35);
+  transform: translateY(-3px);
+}
+
+.featureNumber {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: rgba(77, 184, 72, 0.2);
+  line-height: 1;
+}
+
+.featureCard:hover .featureNumber {
+  color: rgba(77, 184, 72, 0.5);
+}
+
+.featureText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.featureGlow {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(77, 184, 72, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.featureCard:hover .featureGlow {
+  opacity: 1;
+}
+
+/* CTA */
+.ctaWrapper {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+
+.ctaBtn {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  padding: 16px 36px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-radius: 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.ctaBtn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+}
+
+/* ── Siblings Section ── */
+.siblingsSection {
+  background: #060608;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 100px;
+}
+
+.siblingsTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.siblingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.siblingCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.siblingCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(77, 184, 72, 0.35);
+  transform: translateY(-2px);
+}
+
+.siblingIcon {
+  color: var(--primary);
+  background: rgba(10, 10, 15, 0.7);
+  border: 1px solid rgba(77, 184, 72, 0.25);
+  border-radius: 12px;
+  padding: 10px;
+  display: inline-flex;
+  flex-shrink: 0;
+  backdrop-filter: blur(6px);
+}
+
+.siblingInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.siblingInfo h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.siblingInfo p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.55);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.siblingArrow {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 4px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.3s ease;
+}
+
+.siblingCard:hover .siblingArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.backRow {
+  text-align: center;
+  padding-top: 0.5rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .heroTitle { font-size: 2.6rem; }
+  .featuresGrid { grid-template-columns: 1fr 1fr; }
+  .siblingsGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .heroSection { min-height: 40vh; padding-top: 100px; }
+  .heroTitle { font-size: 2rem; }
+  .featuresTitle { font-size: 2rem; }
+  .featuresGrid { grid-template-columns: 1fr; }
+  .siblingsGrid { grid-template-columns: 1fr; }
+}

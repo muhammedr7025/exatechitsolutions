@@ -3,6 +3,7 @@ import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import ServicesIndex from './pages/ServicesIndex';
 import ServiceDetail from './pages/ServiceDetail';
+import SubServiceDetail from './pages/SubServiceDetail';
 import PortfolioPage from './pages/PortfolioPage';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/services', element: <ServicesIndex /> },
       { path: '/services/:slug', element: <ServiceDetail /> },
+      { path: '/services/:slug/:subSlug', element: <SubServiceDetail /> },
       { path: '/portfolio', element: <PortfolioPage /> },
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
@@ -27,3 +29,4 @@ export const router = createBrowserRouter([
     element: <StudioLazy />,
   },
 ]);
+
