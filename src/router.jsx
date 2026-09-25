@@ -5,6 +5,8 @@ import ServicesIndex from './pages/ServicesIndex';
 import ServiceDetail from './pages/ServiceDetail';
 import SubServiceDetail from './pages/SubServiceDetail';
 import PortfolioPage from './pages/PortfolioPage';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
@@ -19,6 +21,8 @@ export const router = createBrowserRouter([
       { path: '/services/:slug', element: <ServiceDetail /> },
       { path: '/services/:slug/:subSlug', element: <SubServiceDetail /> },
       { path: '/portfolio', element: <PortfolioPage /> },
+      { path: '/blog', element: <Blog /> },
+      { path: '/blog/:slug', element: <BlogPost /> },
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '*', element: <NotFound /> },

@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import HeroVisual from './home/HeroVisual';
 import styles from './Hero.module.css';
-import { whatsappLink } from '../whatsapp';
+import { useSite } from '../cms/SiteContext';
 
-export default function Hero() {
+// Site-internal links (/services) use the router; anything else is a normal link.
+const isInternal = (href) => href?.startsWith('/') && !href.startsWith('//');
+
+export default function Hero({ content }) {
+  const { whatsapp } = useSite();
+  const secondaryLink = content.heroSecondaryCtaLink || '/services';
+
   return (
     <section className={styles.heroSection}>
       {/* Immersive Cinematic Background */}
@@ -26,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <span className={styles.statusDot}></span>
-            <span className={styles.statusText}>EXATECH ENGINEERING</span>
+            <span className={styles.statusText}>{content.heroBadgeText}</span>
           </motion.div>
 
           <motion.h1
@@ -35,8 +41,13 @@ export default function Hero() {
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            Architect Your <br className={styles.desktopBreak} />
-            <span className={styles.textHighlight}>Digital Future</span>
+            {content.heroHeadlinePrefix}
+            {content.heroHeadlineHighlight && (
+              <>
+                {' '}<br className={styles.desktopBreak} />
+                <span className={styles.textHighlight}>{content.heroHeadlineHighlight}</span>
+              </>
+            )}
           </motion.h1>
 
           <motion.p
@@ -45,7 +56,7 @@ export default function Hero() {
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.9, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-             We architect elite web platforms, intelligent mobile applications, and scalable business frameworks. Engineered for enterprises that demand absolute perfection.
+             {content.heroSubtitle}
           </motion.p>
 
           <motion.div
@@ -55,22 +66,28 @@ export default function Hero() {
              transition={{ duration: 0.6, delay: 0.6 }}
           >
              <a
-               href={whatsappLink()}
+               href={whatsapp()}
                target="_blank"
                rel="noopener noreferrer"
                className={styles.primaryBtn}
              >
-               Start Innovating <ChevronRight size={18} className={styles.btnIcon} />
+               {content.heroCtaText} <ChevronRight size={18} className={styles.btnIcon} />
                <div className={styles.btnGlow}></div>
              </a>
-             <Link to="/services" className={styles.secondaryBtn}>
-               Explore Engine
-             </Link>
+             {isInternal(secondaryLink) ? (
+               <Link to={secondaryLink} className={styles.secondaryBtn}>
+                 {content.heroSecondaryCtaText}
+               </Link>
+             ) : (
+               <a href={secondaryLink} target="_blank" rel="noopener noreferrer" className={styles.secondaryBtn}>
+                 {content.heroSecondaryCtaText}
+               </a>
+             )}
           </motion.div>
         </motion.div>
 
         <div className={styles.visualCol}>
-          <HeroVisual />
+          <HeroVisual chipTop={content.heroChipTop} chipBottom={content.heroChipBottom} />
         </div>
 
         {/* Scroll Indicator */}

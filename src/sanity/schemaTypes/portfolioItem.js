@@ -29,9 +29,10 @@ export default {
       type: 'image',
       description: 'Optional. If set, used instead of the live screenshot API.',
     },
-    { name: 'order', title: 'Order', type: 'number' },
+    { name: 'order', title: 'Order', type: 'number', description: 'Lower numbers appear first within each tab.' },
   ],
+  orderings: [{ name: 'orderAsc', title: 'Order', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'name', subtitle: 'url' },
+    select: { title: 'name', subtitle: 'url', media: 'screenshot' },
   },
 };

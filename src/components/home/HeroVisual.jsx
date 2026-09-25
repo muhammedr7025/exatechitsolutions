@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Globe, Zap, ShieldCheck } from 'lucide-react';
-import { portfolioData } from '../../data/portfolioData';
+import { usePortfolio } from '../../cms/hooks';
+import { screenshotSrc, hostnameOf } from '../../lib/screenshot';
 import styles from './HeroVisual.module.css';
 
-const SLIDES = portfolioData.websites.slice(0, 5);
+const SLIDE_COUNT = 5;
 
-export default function HeroVisual() {
+export default function HeroVisual({ chipTop, chipBottom }) {
+  const slides = usePortfolio().web.slice(0, SLIDE_COUNT);
   const [index, setIndex] = useState(0);
   const ref = useRef(null);
 
@@ -16,9 +18,10 @@ export default function HeroVisual() {
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 150, damping: 20 });
 
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 3200);
+    if (slides.length < 2) return undefined;
+    const id = setInterval(() => setIndex((i) => (i + 1) % slides.length), 3200);
     return () => clearInterval(id);
-  }, []);
+  }, [slides.length]);
 
   const handleMouseMove = (e) => {
     const rect = ref.current.getBoundingClientRect();
@@ -31,7 +34,7 @@ export default function HeroVisual() {
     y.set(0);
   };
 
-  const slide = SLIDES[index];
+  const slide = slides[index % Math.max(slides.length, 1)];
 
   return (
     <div className={styles.wrapper}>
@@ -52,22 +55,24 @@ export default function HeroVisual() {
           </div>
           <div className={styles.fakeUrl}>
             <Globe size={11} />
-            {new URL(slide.url).hostname}
+            {slide && hostnameOf(slide.url)}
           </div>
         </div>
         <div className={styles.deviceScreen}>
           <AnimatePresence mode="wait">
-            <motion.img
-              key={slide.url}
-              src={`https://api.microlink.io/?url=${encodeURIComponent(slide.url)}&screenshot=true&meta=false&embed=screenshot.url`}
-              alt={slide.name}
-              className={styles.screenshotImg}
-              initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              loading="eager"
-            />
+            {slide && (
+              <motion.img
+                key={slide.url}
+                src={screenshotSrc(slide)}
+                alt={slide.name}
+                className={styles.screenshotImg}
+                initial={{ opacity: 0, scale: 1.03 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6 }}
+                loading="eager"
+              />
+            )}
           </AnimatePresence>
         </div>
       </motion.div>
@@ -78,7 +83,7 @@ export default function HeroVisual() {
         animate={{ opacity: 1, y: [0, -10, 0] }}
         transition={{ opacity: { duration: 0.6, delay: 1 }, y: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 } }}
       >
-        <Zap size={16} /> <span>150+ Projects Delivered</span>
+        <Zap size={16} /> <span>{chipTop}</span>
       </motion.div>
 
       <motion.div
@@ -87,11 +92,11 @@ export default function HeroVisual() {
         animate={{ opacity: 1, y: [0, 10, 0] }}
         transition={{ opacity: { duration: 0.6, delay: 1.2 }, y: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 } }}
       >
-        <ShieldCheck size={16} /> <span>Enterprise-Grade Security</span>
+        <ShieldCheck size={16} /> <span>{chipBottom}</span>
       </motion.div>
 
       <div className={styles.dots}>
-        {SLIDES.map((s, i) => (
+        {slides.map((s, i) => (
           <button
             key={s.url}
             className={`${styles.dot} ${i === index ? styles.dotActive : ''}`}

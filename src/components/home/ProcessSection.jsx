@@ -1,21 +1,17 @@
 import { motion } from 'framer-motion';
-import { Search, PenTool, Rocket, LifeBuoy } from 'lucide-react';
+import Icon from '../../lib/Icon';
 import styles from './ProcessSection.module.css';
 
-const STEPS = [
-  { icon: <Search size={26} />, num: '01', title: 'Discover', desc: 'We map your goals, constraints, and success metrics before a single line of code.' },
-  { icon: <PenTool size={26} />, num: '02', title: 'Design & Architect', desc: 'Prototypes, system architecture, and a stack chosen for your scale — not ours.' },
-  { icon: <Rocket size={26} />, num: '03', title: 'Build & Ship', desc: 'Agile sprints with weekly demos, a dedicated PM, and full visibility into progress.' },
-  { icon: <LifeBuoy size={26} />, num: '04', title: 'Support & Scale', desc: 'Post-launch monitoring, maintenance, and roadmap support as you grow.' },
-];
-
-export default function ProcessSection() {
+export default function ProcessSection({ content }) {
   return (
     <section className={`section ${styles.process}`}>
       <div className="container">
         <div className={styles.headerBlock}>
-          <span className={styles.eyebrow}>How We Work</span>
-          <h2 className={styles.title}>From Idea to <span className="text-gradient">Deployment.</span></h2>
+          <span className={styles.eyebrow}>{content.processEyebrow}</span>
+          <h2 className={styles.title}>
+            {content.processTitle}{' '}
+            {content.processHighlight && <span className="text-gradient">{content.processHighlight}</span>}
+          </h2>
         </div>
 
         <div className={styles.steps}>
@@ -32,9 +28,9 @@ export default function ProcessSection() {
             />
           </svg>
 
-          {STEPS.map((step, i) => (
+          {content.processSteps.map((step, i) => (
             <motion.div
-              key={step.num}
+              key={`${i}-${step.title}`}
               className={styles.step}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -48,11 +44,11 @@ export default function ProcessSection() {
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.4, delay: i * 0.15 + 0.2, type: 'spring', bounce: 0.5 }}
               >
-                {step.icon}
+                <Icon name={step.icon} size={26} />
               </motion.div>
-              <span className={styles.stepNum}>{step.num}</span>
+              <span className={styles.stepNum}>{String(i + 1).padStart(2, '0')}</span>
               <h3 className={styles.stepTitle}>{step.title}</h3>
-              <p className={styles.stepDesc}>{step.desc}</p>
+              <p className={styles.stepDesc}>{step.description}</p>
             </motion.div>
           ))}
         </div>

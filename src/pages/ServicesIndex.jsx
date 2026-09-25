@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap } from 'lucide-react';
-import { servicesList } from '../data/servicesContent';
+import Icon from '../lib/Icon';
+import { useSite } from '../cms/SiteContext';
+import { useServicesPage } from '../cms/hooks';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './ServicesIndex.module.css';
 
 export default function ServicesIndex() {
-  usePageMeta(
-    'Services',
-    'Explore all 12 of Exatech IT Solutions\' service disciplines — web, mobile, AI, ERP, automation, and more.'
-  );
+  const { services } = useSite();
+  const page = useServicesPage();
+
+  usePageMeta(page.seoTitle, page.seoDescription);
 
   return (
     <section className={`section ${styles.servicesSection}`}>
@@ -21,7 +23,7 @@ export default function ServicesIndex() {
             viewport={{ once: true }}
             className={styles.sectionBadge}
           >
-            <Zap size={14} /> Core Capabilities
+            <Zap size={14} /> {page.eyebrow}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -29,7 +31,8 @@ export default function ServicesIndex() {
             viewport={{ once: true }}
             className={styles.sectionTitle}
           >
-            Everything We <span className="text-gradient">Engineer.</span>
+            {page.title}{' '}
+            {page.highlight && <span className="text-gradient">{page.highlight}</span>}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -37,14 +40,14 @@ export default function ServicesIndex() {
             viewport={{ once: true }}
             className={styles.sectionSubtitle}
           >
-            Twelve disciplines, one engineering team. Pick a capability to see the full scope, stack, and delivery model.
+            {page.subtitle}
           </motion.p>
         </div>
 
         <div className={styles.grid}>
-          {servicesList.map((service, idx) => (
+          {services.map((service, idx) => (
             <motion.div
-              key={service.id}
+              key={service.slug}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
@@ -53,15 +56,15 @@ export default function ServicesIndex() {
               <Link
                 to={`/services/${service.slug}`}
                 className={styles.card}
-                style={{ backgroundImage: `url(${service.bg})` }}
+                style={{ backgroundImage: `url(${service.bgUrl})` }}
               >
                 <div className={styles.cardOverlay} />
-                <span className={styles.cardNum}>{service.id.padStart(2, '0')}</span>
-                <div className={styles.cardIcon}>{service.icon}</div>
+                <span className={styles.cardNum}>{String(idx + 1).padStart(2, '0')}</span>
+                <div className={styles.cardIcon}><Icon name={service.icon} size={42} /></div>
                 <h3 className={styles.cardTitle}>{service.title}</h3>
                 <p className={styles.cardTeaser}>{service.teaser}</p>
                 <span className={styles.cardLink}>
-                  Explore <ArrowRight size={16} />
+                  {page.cardLinkText} <ArrowRight size={16} />
                 </span>
               </Link>
             </motion.div>

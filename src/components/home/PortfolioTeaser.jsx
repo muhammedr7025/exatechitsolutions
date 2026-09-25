@@ -1,27 +1,28 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Globe } from 'lucide-react';
-import { portfolioData } from '../../data/portfolioData';
+import { screenshotSrc, hostnameOf } from '../../lib/screenshot';
 import styles from './PortfolioTeaser.module.css';
 
-const HIGHLIGHTS = portfolioData.websites.slice(0, 3);
-
-export default function PortfolioTeaser() {
+export default function PortfolioTeaser({ content, projects }) {
   return (
     <section className={`section ${styles.teaser}`}>
       <div className="container">
         <div className={styles.headerRow}>
           <div>
-            <span className={styles.eyebrow}>Work Gallery</span>
-            <h2 className={styles.title}>Live in the <span className="text-gradient">Wild.</span></h2>
+            <span className={styles.eyebrow}>{content.portfolioEyebrow}</span>
+            <h2 className={styles.title}>
+              {content.portfolioTitle}{' '}
+              {content.portfolioHighlight && <span className="text-gradient">{content.portfolioHighlight}</span>}
+            </h2>
           </div>
           <Link to="/portfolio" className={styles.viewAll}>
-            View Full Portfolio <ArrowRight size={16} />
+            {content.portfolioViewAllText} <ArrowRight size={16} />
           </Link>
         </div>
 
         <div className={styles.grid}>
-          {HIGHLIGHTS.map((project, i) => (
+          {projects.map((project, i) => (
             <motion.a
               key={project.url}
               href={project.url}
@@ -38,12 +39,12 @@ export default function PortfolioTeaser() {
                   <span></span><span></span><span></span>
                 </div>
                 <div className={styles.fakeUrl}>
-                  <Globe size={11} /> {new URL(project.url).hostname}
+                  <Globe size={11} /> {hostnameOf(project.url)}
                 </div>
               </div>
               <div className={styles.thumbnailWrapper}>
                 <img
-                  src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url`}
+                  src={screenshotSrc(project)}
                   alt={`${project.name} preview`}
                   className={styles.thumbnailImg}
                   loading="lazy"
