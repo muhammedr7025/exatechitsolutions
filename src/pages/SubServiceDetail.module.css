@@ -346,3 +346,16 @@
   .featuresGrid { grid-template-columns: 1fr; }
   .siblingsGrid { grid-template-columns: 1fr; }
 }
+
+/* Optional intro + body written in Studio */
+.contentBlock {
+  max-width: 820px;
+  margin: 0 auto 4.5rem;
+}
+
+.introText {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #d4d4de;
+  margin-bottom: 1.25rem;
+}

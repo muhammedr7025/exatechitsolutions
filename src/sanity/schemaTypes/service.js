@@ -1,5 +1,6 @@
 import { ICON_NAMES } from '../../lib/iconMap';
 import { restrictedBlock } from './blocks';
+import { orderAscOrdering } from './fields';
 
 export default {
   name: 'service',
@@ -28,9 +29,16 @@ export default {
     { name: 'stats', title: 'Stats', type: 'array', of: [{ type: 'statItem' }] },
     { name: 'sections', title: 'Sections', type: 'array', of: [{ type: 'serviceSection' }] },
     { name: 'ctaText', title: 'CTA Button Text', type: 'string' },
-    { name: 'ctaWhatsappMessage', title: 'CTA WhatsApp Message', type: 'string' },
+    {
+      name: 'ctaWhatsappMessage',
+      title: 'CTA WhatsApp Message',
+      type: 'text',
+      rows: 2,
+      description: 'The full message visitors start with when they tap the button.',
+    },
     { name: 'seoDescription', title: 'SEO Description', type: 'text', rows: 2 },
   ],
+  orderings: orderAscOrdering,
   preview: {
     select: { title: 'title', subtitle: 'teaser' },
   },

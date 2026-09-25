@@ -2,43 +2,49 @@ import { useRef } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Zap } from 'lucide-react';
-import { servicesList, detailedContent } from '../data/servicesContent';
-import { subServicesData } from '../data/subServicesData';
-import { whatsappLink } from '../whatsapp';
+import Icon from '../lib/Icon';
+import { RichInline } from '../components/RichText';
+import { useSite } from '../cms/SiteContext';
+import { useServiceDetail, useServicesPage } from '../cms/hooks';
+import { fill } from '../cms/resolve';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './ServiceDetail.module.css';
 
+// Fetches the service and handles loading / unknown slugs. The view itself is a
+// separate component so its scroll hooks only run once the hero is on screen.
 export default function ServiceDetail() {
   const { slug } = useParams();
-  const service = servicesList.find((s) => s.slug === slug);
-  const content = detailedContent[slug];
-  const subServices = subServicesData[slug] || [];
+  const { service, loading, notFound } = useServiceDetail(slug);
+
+  usePageMeta(
+    service?.title,
+    service ? service.seoDescription || `${service.title} services by Exatech IT Solutions. ${service.teaser}` : undefined
+  );
+
+  if (notFound) return <Navigate to="/services" replace />;
+  if (loading || !service) return <div style={{ minHeight: '70vh' }} aria-busy="true" />;
+  return <ServiceView key={slug} service={service} slug={slug} />;
+}
+
+function ServiceView({ service, slug }) {
+  const { services: servicesList, whatsapp } = useSite();
+  const labels = useServicesPage();
+  const subServices = service.subServices;
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
 
-  usePageMeta(
-    service?.title,
-    service ? `${service.title} services by Exatech IT Solutions. ${service.teaser}` : undefined
-  );
-
-  if (!service || !content) {
-    return <Navigate to="/services" replace />;
-  }
-
-  const idx = servicesList.findIndex((s) => s.slug === slug);
-  const related = [
-    servicesList[(idx + 1) % servicesList.length],
-    servicesList[(idx + 2) % servicesList.length],
-    servicesList[(idx + 3) % servicesList.length],
-  ];
+  const idx = Math.max(0, servicesList.findIndex((s) => s.slug === slug));
+  const related = [1, 2, 3]
+    .map((n) => servicesList[(idx + n) % servicesList.length])
+    .filter((s, i, all) => s && s.slug !== slug && all.findIndex((x) => x.slug === s.slug) === i);
 
   return (
     <>
       <section className={styles.heroSection} ref={heroRef}>
         <motion.div
           className={styles.bgImage}
-          style={{ backgroundImage: `url(${service.bg})`, y: bgY }}
+          style={{ backgroundImage: `url(${service.bgUrl})`, y: bgY }}
           initial={{ scale: 1.15 }}
           animate={{ scale: 1.05 }}
           transition={{ duration: 8, ease: 'easeOut' }}
@@ -46,7 +52,7 @@ export default function ServiceDetail() {
         <div className={styles.bgOverlay} />
         <div className={`container ${styles.heroContent}`}>
           <Link to="/services" className={styles.backLink}>
-            <ArrowLeft size={16} /> All Services
+            <ArrowLeft size={16} /> {labels.backToServicesText}
           </Link>
           <motion.div
             className={styles.heroIcon}
@@ -54,7 +60,7 @@ export default function ServiceDetail() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
           >
-            {service.icon}
+            <Icon name={service.icon} size={42} />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -69,10 +75,12 @@ export default function ServiceDetail() {
 
       <section className={`section ${styles.bodySection}`}>
         <div className="container">
-          <p className={styles.intro}>{content.intro}</p>
+          {service.intro.map((block, i) => (
+            <p className={styles.intro} key={i}><RichInline value={block} /></p>
+          ))}
 
           <div className={styles.statsRow}>
-            {content.stats.map((stat, i) => (
+            {service.stats.map((stat, i) => (
               <motion.div
                 className={styles.statCard}
                 key={i}
@@ -81,7 +89,7 @@ export default function ServiceDetail() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
-                <span className={styles.statIcon}>{stat.icon}</span>
+                {stat.icon && <span className={styles.statIcon}><Icon name={stat.icon} size={22} /></span>}
                 <span className={styles.statValue}>{stat.value}</span>
                 <span className={styles.statLabel}>{stat.label}</span>
               </motion.div>
@@ -98,13 +106,14 @@ export default function ServiceDetail() {
                 viewport={{ once: true }}
               >
                 <span className={styles.subServicesBadge}>
-                  <Zap size={14} /> Specialized Areas
+                  <Zap size={14} /> {labels.subServicesBadge}
                 </span>
                 <h2 className={styles.subServicesTitle}>
-                  Explore Our <span className="text-gradient">Sub-Services</span>
+                  {labels.subServicesTitle}{' '}
+                  {labels.subServicesHighlight && <span className="text-gradient">{labels.subServicesHighlight}</span>}
                 </h2>
                 <p className={styles.subServicesDesc}>
-                  Dive deeper into each specialized area within {service.title}.
+                  {fill(labels.subServicesDescription, { service: service.title })}
                 </p>
               </motion.div>
 
@@ -122,13 +131,13 @@ export default function ServiceDetail() {
                       className={styles.subServiceCard}
                     >
                       <div className={styles.subServiceIconBox}>
-                        {sub.icon}
+                        <Icon name={sub.icon} size={32} />
                       </div>
                       <div className={styles.subServiceContent}>
                         <h3 className={styles.subServiceCardTitle}>{sub.title}</h3>
                         <p className={styles.subServiceTeaser}>{sub.teaser}</p>
                         <span className={styles.subServiceLink}>
-                          Learn More <ArrowRight size={14} />
+                          {labels.learnMoreText} <ArrowRight size={14} />
                         </span>
                       </div>
                       <div className={styles.subServiceGlow}></div>
@@ -140,7 +149,7 @@ export default function ServiceDetail() {
           )}
 
           <div className={styles.detailGrid}>
-            {content.sections.map((sec, i) => (
+            {service.sections.map((sec, i) => (
               <motion.div
                 className={styles.detailCard}
                 key={i}
@@ -150,12 +159,12 @@ export default function ServiceDetail() {
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
                 <div className={styles.detailCardHeader}>
-                  <span className={styles.detailIcon}>{sec.icon}</span>
+                  <span className={styles.detailIcon}><Icon name={sec.icon} size={18} /></span>
                   <h4>{sec.title}</h4>
                 </div>
                 <ul className={styles.detailList}>
                   {sec.items.map((item, j) => (
-                    <li key={j}>{item}</li>
+                    <li key={j}><RichInline value={item} /></li>
                   ))}
                 </ul>
               </motion.div>
@@ -163,19 +172,19 @@ export default function ServiceDetail() {
           </div>
 
           <a
-            href={whatsappLink(`Hello Exatech IT Solutions, I am interested in your ${content.cta.msg}.`)}
+            href={whatsapp(service.ctaMessage || `Hello Exatech IT Solutions, I am interested in your ${service.title}.`)}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.ctaBtn}
           >
-            {content.cta.text} <ArrowRight size={18} />
+            {service.ctaText || 'Get Started'} <ArrowRight size={18} />
           </a>
         </div>
       </section>
 
       <section className={`section ${styles.relatedSection}`}>
         <div className="container">
-          <h3 className={styles.relatedTitle}>Other Capabilities</h3>
+          <h3 className={styles.relatedTitle}>{labels.relatedTitle}</h3>
           <div className={styles.relatedGrid}>
             {related.map((s, i) => (
               <motion.div
@@ -188,10 +197,10 @@ export default function ServiceDetail() {
                 <Link
                   to={`/services/${s.slug}`}
                   className={styles.relatedCard}
-                  style={{ backgroundImage: `url(${s.bg})` }}
+                  style={{ backgroundImage: `url(${s.bgUrl})` }}
                 >
                   <div className={styles.relatedOverlay} />
-                  <div className={styles.relatedIcon}>{s.icon}</div>
+                  <div className={styles.relatedIcon}><Icon name={s.icon} size={42} /></div>
                   <span className={styles.relatedCardTitle}>{s.title}</span>
                   <span className={styles.relatedArrow}><ArrowRight size={16} /></span>
                 </Link>

@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Play, Apple, ExternalLink, X, Maximize2, Sparkles } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
+import { usePortfolio, usePortfolioPage } from '../cms/hooks';
+import { screenshotSrc, hostnameOf } from '../lib/screenshot';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './PortfolioPage.module.css';
 
 export default function PortfolioPage() {
-  usePageMeta(
-    'Portfolio',
-    'A showcase of web platforms and mobile apps delivered by Exatech IT Solutions.'
-  );
+  const page = usePortfolioPage();
+  const projects = usePortfolio();
 
-  const [activeTab, setActiveTab] = useState('websites');
+  usePageMeta(page.seoTitle, page.seoDescription);
+
+  const [activeTab, setActiveTab] = useState('web');
   const [selectedProject, setSelectedProject] = useState(null);
   const [iframeLoading, setIframeLoading] = useState(true);
 
   const tabs = [
-    { id: 'websites', label: 'Web Platforms', icon: <Globe size={18} /> },
-    { id: 'appstore', label: 'iOS Ecosystem', icon: <Apple size={18} /> },
-    { id: 'playstore', label: 'Android Apps', icon: <Play size={18} /> },
+    { id: 'web', label: page.tabWebLabel, icon: <Globe size={18} /> },
+    { id: 'ios', label: page.tabIosLabel, icon: <Apple size={18} /> },
+    { id: 'android', label: page.tabAndroidLabel, icon: <Play size={18} /> },
   ];
 
   // Lock body scroll when modal is open
@@ -51,7 +52,7 @@ export default function PortfolioPage() {
             viewport={{ once: true }}
             className={styles.sectionBadge}
           >
-             <Sparkles size={14} className={styles.badgeIcon} /> Work Gallery
+             <Sparkles size={14} className={styles.badgeIcon} /> {page.eyebrow}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -59,7 +60,8 @@ export default function PortfolioPage() {
             viewport={{ once: true, delay: 0.1 }}
             className={styles.sectionTitle}
           >
-            Digital <span className="text-gradient">Ecosystems.</span>
+            {page.title}{' '}
+            {page.highlight && <span className="text-gradient">{page.highlight}</span>}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -67,7 +69,7 @@ export default function PortfolioPage() {
             viewport={{ once: true, delay: 0.2 }}
             className={styles.sectionSubtitle}
           >
-            A curated showroom of our high-performance deployments. Select a node to initiate a live interactive simulation.
+            {page.subtitle}
           </motion.p>
         </div>
 
@@ -92,7 +94,7 @@ export default function PortfolioPage() {
         {/* Projects Grid with Animated Beam Cards */}
         <motion.div layout className={styles.projectsGrid}>
           <AnimatePresence mode='popLayout'>
-            {portfolioData[activeTab].map((project, idx) => (
+            {projects[activeTab].map((project, idx) => (
               <motion.button
                 key={project.url}
                 onClick={() => handleProjectClick(project)}
@@ -112,12 +114,12 @@ export default function PortfolioPage() {
                     <div className={styles.macControls}>
                       <span></span><span></span><span></span>
                     </div>
-                    <div className={styles.fakeUrl}>{new URL(project.url).hostname}</div>
+                    <div className={styles.fakeUrl}>{hostnameOf(project.url)}</div>
                   </div>
 
                   <div className={styles.thumbnailWrapper}>
                     <img
-                      src={`https://api.microlink.io/?url=${encodeURIComponent(project.url)}&screenshot=true&meta=false&embed=screenshot.url`}
+                      src={screenshotSrc(project)}
                       alt={`${project.name} Preview`}
                       className={styles.thumbnailImg}
                       loading="lazy"
@@ -140,7 +142,7 @@ export default function PortfolioPage() {
                         }}
                         transition={{ duration: 0.3 }}
                     >
-                      <Maximize2 size={16} /> Init Simulation
+                      <Maximize2 size={16} /> {page.cardButtonText}
                     </motion.div>
                   </div>
 

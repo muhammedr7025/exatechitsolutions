@@ -1,39 +1,37 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ChevronRight, CheckCircle } from 'lucide-react';
-import { servicesList } from '../data/servicesContent';
-import { subServicesData } from '../data/subServicesData';
-import { whatsappLink } from '../whatsapp';
+import Icon from '../lib/Icon';
+import { RichInline, RichArticle } from '../components/RichText';
+import { useSite } from '../cms/SiteContext';
+import { useSubServiceDetail, useServicesPage } from '../cms/hooks';
+import { fill } from '../cms/resolve';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './SubServiceDetail.module.css';
 
 export default function SubServiceDetail() {
   const { slug, subSlug } = useParams();
-
-  const parentService = servicesList.find((s) => s.slug === slug);
-  const subServices = subServicesData[slug];
-  const subService = subServices?.find((ss) => ss.slug === subSlug);
+  const { whatsapp } = useSite();
+  const labels = useServicesPage();
+  const { subService, loading, notFound } = useSubServiceDetail(slug, subSlug);
+  const parentService = subService?.parent;
 
   usePageMeta(
-    subService ? `${subService.title} — ${parentService?.title}` : 'Sub-Service',
-    subService
-      ? `${subService.title}: ${subService.teaser}`
-      : undefined
+    subService ? `${subService.title} — ${parentService.title}` : 'Sub-Service',
+    subService ? subService.seoDescription || `${subService.title}: ${subService.teaser}` : undefined
   );
 
-  if (!parentService || !subService) {
-    return <Navigate to={parentService ? `/services/${slug}` : '/services'} replace />;
-  }
+  if (notFound) return <Navigate to={`/services/${slug}`} replace />;
+  if (loading || !subService) return <div style={{ minHeight: '70vh' }} aria-busy="true" />;
 
-  // Get sibling sub-services (exclude current)
-  const siblings = subServices.filter((ss) => ss.slug !== subSlug);
+  const siblings = subService.siblings;
 
   return (
     <>
       {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroGlow}></div>
-        <div className={styles.heroBgImage} style={{ backgroundImage: `url(${parentService.bg})` }}></div>
+        <div className={styles.heroBgImage} style={{ backgroundImage: `url(${parentService.bgUrl})` }}></div>
         <div className={styles.heroBgOverlay}></div>
 
         <div className={`container ${styles.heroContent}`}>
@@ -57,7 +55,7 @@ export default function SubServiceDetail() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
           >
-            {subService.icon}
+            <Icon name={subService.icon} size={32} />
           </motion.div>
 
           <motion.h1
@@ -83,6 +81,15 @@ export default function SubServiceDetail() {
       {/* Features Section */}
       <section className={`section ${styles.featuresSection}`}>
         <div className="container">
+          {(subService.intro.length > 0 || subService.body.length > 0) && (
+            <div className={styles.contentBlock}>
+              {subService.intro.map((block, i) => (
+                <p className={styles.introText} key={i}><RichInline value={block} /></p>
+              ))}
+              {subService.body.length > 0 && <RichArticle value={subService.body} />}
+            </div>
+          )}
+
           <motion.div
             className={styles.featuresHeader}
             initial={{ opacity: 0, y: 20 }}
@@ -90,10 +97,11 @@ export default function SubServiceDetail() {
             viewport={{ once: true }}
           >
             <span className={styles.sectionBadge}>
-              <CheckCircle size={14} /> Key Deliverables
+              <CheckCircle size={14} /> {labels.deliverablesBadge}
             </span>
             <h2 className={styles.featuresTitle}>
-              What We <span className="text-gradient">Deliver.</span>
+              {labels.deliverablesTitle}{' '}
+              {labels.deliverablesHighlight && <span className="text-gradient">{labels.deliverablesHighlight}</span>}
             </h2>
           </motion.div>
 
@@ -125,12 +133,12 @@ export default function SubServiceDetail() {
             transition={{ duration: 0.5 }}
           >
             <a
-              href={whatsappLink(`Hello Exatech IT Solutions, I am interested in your ${subService.title} services under ${parentService.title}.`)}
+              href={whatsapp(subService.ctaMessage || `Hello Exatech IT Solutions, I am interested in your ${subService.title} services under ${parentService.title}.`)}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.ctaBtn}
             >
-              Get Started with {subService.title} <ArrowRight size={18} />
+              {subService.ctaText || fill(labels.subServiceCtaText, { title: subService.title })} <ArrowRight size={18} />
             </a>
           </motion.div>
         </div>
@@ -141,7 +149,7 @@ export default function SubServiceDetail() {
         <section className={`section ${styles.siblingsSection}`}>
           <div className="container">
             <h3 className={styles.siblingsTitle}>
-              More in <span className="text-gradient">{parentService.title}</span>
+              {labels.siblingsTitle} <span className="text-gradient">{parentService.title}</span>
             </h3>
             <div className={styles.siblingsGrid}>
               {siblings.map((sib, idx) => (
@@ -156,7 +164,7 @@ export default function SubServiceDetail() {
                     to={`/services/${slug}/${sib.slug}`}
                     className={styles.siblingCard}
                   >
-                    <div className={styles.siblingIcon}>{sib.icon}</div>
+                    <div className={styles.siblingIcon}><Icon name={sib.icon} size={32} /></div>
                     <div className={styles.siblingInfo}>
                       <h4>{sib.title}</h4>
                       <p>{sib.teaser}</p>
@@ -169,7 +177,7 @@ export default function SubServiceDetail() {
 
             <div className={styles.backRow}>
               <Link to={`/services/${slug}`} className={styles.backLink}>
-                <ArrowLeft size={16} /> Back to {parentService.title}
+                <ArrowLeft size={16} /> {fill(labels.backToServiceText, { service: parentService.title })}
               </Link>
             </div>
           </div>

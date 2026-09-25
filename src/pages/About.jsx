@@ -1,22 +1,19 @@
 import { motion } from 'framer-motion';
-import { Target, Compass, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { PortableText } from '@portabletext/react';
 import StatsStrip from '../components/StatsStrip';
 import WhyUs from '../components/home/WhyUs';
+import Icon from '../lib/Icon';
+import { useAboutPage, useHomeDoc } from '../cms/hooks';
+import { isShown } from '../cms/resolve';
 import { usePageMeta } from '../hooks/usePageMeta';
 import styles from './About.module.css';
 
-const STATS = [
-  { value: '150+', label: 'Projects Delivered' },
-  { value: '12', label: 'Service Disciplines' },
-  { value: '2M+', label: 'End Users Served' },
-  { value: 'Kerala', label: 'Home Base' },
-];
-
 export default function About() {
-  usePageMeta(
-    'About Us',
-    'Exatech IT Solutions is a technology collective based in Venjarammoodu, Kerala, building web, mobile, AI, and ERP solutions.'
-  );
+  const page = useAboutPage();
+  const whyUs = useHomeDoc();
+
+  usePageMeta(page.seoTitle, page.seoDescription);
 
   return (
     <>
@@ -28,7 +25,7 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Sparkles size={14} /> About Exatech
+            <Sparkles size={14} /> {page.eyebrow}
           </motion.span>
           <motion.h1
             className={styles.title}
@@ -36,7 +33,8 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            We Engineer <span className="text-gradient">What&rsquo;s Next.</span>
+            {page.heading}{' '}
+            {page.headingHighlight && <span className="text-gradient">{page.headingHighlight}</span>}
           </motion.h1>
           <motion.p
             className={styles.lead}
@@ -44,41 +42,38 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Exatech IT Solutions is a technology collective based in Venjarammoodu, Kerala,
-            building web platforms, mobile apps, AI tooling, ERP systems, and business
-            automation for clients who expect precision, not excuses. We work as one
-            embedded team across design, engineering, and delivery — so nothing falls
-            through the gap between vendors.
+            {page.lead}
           </motion.p>
         </div>
       </section>
 
-      <StatsStrip stats={STATS} />
+      {page.stats.length > 0 && <StatsStrip stats={page.stats} />}
 
-      <section className={`section ${styles.missionSection}`}>
-        <div className={`container ${styles.missionGrid}`}>
-          <div className={styles.missionCard}>
-            <div className={styles.missionIcon}><Target size={26} /></div>
-            <h2>Our Mission</h2>
-            <p>
-              Give growing businesses access to the same caliber of engineering, design,
-              and delivery discipline that large enterprises take for granted — without
-              the enterprise overhead.
-            </p>
+      {page.missionCards.length > 0 && (
+        <section className={`section ${styles.missionSection}`}>
+          <div className={`container ${styles.missionGrid}`}>
+            {page.missionCards.map((card, i) => (
+              <div className={styles.missionCard} key={`${i}-${card.title}`}>
+                <div className={styles.missionIcon}><Icon name={card.icon} size={26} /></div>
+                <h2>{card.title}</h2>
+                <p>{card.description}</p>
+              </div>
+            ))}
           </div>
-          <div className={styles.missionCard}>
-            <div className={styles.missionIcon}><Compass size={26} /></div>
-            <h2>How We Operate</h2>
-            <p>
-              Every engagement gets a dedicated project manager, weekly sprint demos, and
-              a direct line to the people actually building your product — not a support
-              queue.
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <WhyUs />
+      {page.body?.length > 0 && (
+        <section className={`section ${styles.missionSection}`}>
+          <div className="container">
+            <div className={styles.story}>
+              <PortableText value={page.body} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {isShown(page.showWhyUs) && whyUs.whyUsItems.length > 0 && <WhyUs content={whyUs} />}
     </>
   );
 }

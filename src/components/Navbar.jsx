@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
-import { servicesList } from '../data/servicesContent';
-import { whatsappLink } from '../whatsapp';
+import { useSite } from '../cms/SiteContext';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
+  const { logoUrl, logoAlt, services: servicesList, settings, whatsapp } = useSite();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -21,6 +21,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', to: '/' },
     { name: 'Portfolio', to: '/portfolio' },
+    { name: 'Blog', to: '/blog' },
     { name: 'About', to: '/about' },
     { name: 'Contact', to: '/contact' },
   ];
@@ -39,7 +40,7 @@ export default function Navbar() {
         layout
       >
         <Link to="/" className={styles.logo}>
-          <img src="/logo.png" alt="Exatech Logo" className={styles.logoImg} />
+          <img src={logoUrl} alt={logoAlt} className={styles.logoImg} />
         </Link>
 
         <div className={styles.desktopMenu}>
@@ -97,12 +98,12 @@ export default function Navbar() {
 
         <div className={styles.actions}>
           <a
-            href={whatsappLink()}
+            href={whatsapp()}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.actionBtn}
           >
-            Let's Talk <ArrowRight size={16} className={styles.btnIcon} />
+            {settings.navCtaText} <ArrowRight size={16} className={styles.btnIcon} />
             <div className={styles.btnBorderGlow}></div>
           </a>
 
@@ -171,13 +172,13 @@ export default function Navbar() {
             ))}
 
             <a
-              href={whatsappLink()}
+              href={whatsapp()}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.actionBtnMobile}
               onClick={() => setMobileMenuOpen(false)}
             >
-              Let's Talk
+              {settings.navCtaText}
             </a>
           </motion.div>
           </div>

@@ -1,92 +1,110 @@
-import { Mail, MapPin, Phone, ArrowUpRight, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowRight } from 'lucide-react';
 import styles from './Footer.module.css';
-import { whatsappLink } from '../whatsapp';
+import { useSite } from '../cms/SiteContext';
 
 export default function Footer() {
+  const { settings, contact, logoUrl, logoAlt, siteName, whatsapp } = useSite();
+
   return (
     <footer id="footer" className={styles.footerSection}>
       {/* Background Visuals */}
       <div className={styles.bgGlow}></div>
 
       <div className={`container ${styles.footerContainer}`}>
-        
+
         {/* Call to Action Block */}
         <div className={styles.ctaBlock}>
           <h2 className={styles.ctaTitle}>
-            Ready to <span className="text-gradient">Innovate?</span>
+            {settings.footerCtaTitle}{' '}
+            {settings.footerCtaHighlight && <span className="text-gradient">{settings.footerCtaHighlight}</span>}
           </h2>
-          <p className={styles.ctaDesc}>
-            Deploy elite IT solutions, scalable software, and intelligent automation built precisely for your enterprise. Let's engineer your digital future.
-          </p>
+          <p className={styles.ctaDesc}>{settings.footerCtaDescription}</p>
           <a
-            href={whatsappLink()}
+            href={whatsapp()}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.ctaButton}
           >
-            Initiate Project <ArrowRight size={20} className={styles.btnArrow} />
+            {settings.footerCtaButtonText} <ArrowRight size={20} className={styles.btnArrow} />
           </a>
         </div>
 
         {/* Footer Grid */}
         <div className={styles.footerGrid}>
-          
+
           {/* Brand Column */}
           <div className={styles.brandCol}>
             <div className={styles.logoGroup}>
-              <img src="/logo.png" alt="Exatech Logo" className={styles.footerLogoImg} />
+              <img src={logoUrl} alt={logoAlt} className={styles.footerLogoImg} />
             </div>
-            <p className={styles.brandDesc}>
-              A premium technology collective pioneering web development, AI capabilities, and scalable business automation frameworks.
-            </p>
+            <p className={styles.brandDesc}>{settings.footerBrandDescription}</p>
           </div>
 
           {/* Contact Column */}
-          <div className={styles.contactCol}>
-            <h4 className={styles.colTitle}>Command Center</h4>
-            <div className={styles.contactList}>
-              <div className={styles.contactItem}>
-                <div className={styles.iconBox}><MapPin size={18} /></div>
-                <div className={styles.contactText}>
-                  <strong>Headquarters</strong>
-                  <span>EXATECH 3rd Floor, above Thalam Jewellers, opp. KSRTC Bus Stand</span>
-                  <span>Venjarammoodu, Nellanad, Kerala, India</span>
+          {contact.addressLines.length > 0 && (
+            <div className={styles.contactCol}>
+              <h4 className={styles.colTitle}>{settings.footerContactHeading}</h4>
+              <div className={styles.contactList}>
+                <div className={styles.contactItem}>
+                  <div className={styles.iconBox}><MapPin size={18} /></div>
+                  <div className={styles.contactText}>
+                    <strong>{settings.addressLabel}</strong>
+                    {contact.addressLines.map((line) => (
+                      <span key={line}>{line}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Quick Connect Column */}
-          <div className={styles.connectCol}>
-            <h4 className={styles.colTitle}>Communications</h4>
-            <div className={styles.contactList}>
-              <a href="tel:+919995066663" className={styles.contactItemLink}>
-                <div className={styles.iconBox}><Phone size={18} /></div>
-                <div className={styles.contactText}>
-                  <strong>Direct Line</strong>
-                  <span>+91 99950 66663</span>
-                </div>
-              </a>
-              <a href="mailto:mail@exatech.co.in" className={styles.contactItemLink}>
-                <div className={styles.iconBox}><Mail size={18} /></div>
-                <div className={styles.contactText}>
-                  <strong>Digital Mail</strong>
-                  <span>mail@exatech.co.in</span>
-                </div>
-              </a>
+          {(contact.phoneDisplay || contact.email) && (
+            <div className={styles.connectCol}>
+              <h4 className={styles.colTitle}>{settings.footerConnectHeading}</h4>
+              <div className={styles.contactList}>
+                {contact.phoneDisplay && (
+                  <a href={contact.phoneHref} className={styles.contactItemLink}>
+                    <div className={styles.iconBox}><Phone size={18} /></div>
+                    <div className={styles.contactText}>
+                      <strong>{settings.phoneLabel}</strong>
+                      <span>{contact.phoneDisplay}</span>
+                    </div>
+                  </a>
+                )}
+                {contact.email && (
+                  <a href={`mailto:${contact.email}`} className={styles.contactItemLink}>
+                    <div className={styles.iconBox}><Mail size={18} /></div>
+                    <div className={styles.contactText}>
+                      <strong>{settings.emailLabel}</strong>
+                      <span>{contact.email}</span>
+                    </div>
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
         </div>
 
         {/* Edge to Edge Massive Typography */}
-        <div className={styles.massiveTextWrapper}>
-          <h1 className={styles.massiveText}>EXATECH</h1>
-        </div>
+        {settings.footerBigText && (
+          <div className={styles.massiveTextWrapper}>
+            <h1 className={styles.massiveText}>{settings.footerBigText}</h1>
+          </div>
+        )}
 
         {/* Copyright */}
         <div className={styles.footerBottom}>
-          <p className={styles.copyright}>&copy; {new Date().getFullYear()} Exatech IT Solutions.<br/>Engineered to Perfection in Kerala, India.</p>
+          <p className={styles.copyright}>
+            &copy; {new Date().getFullYear()} {siteName}.
+            {settings.footerCopyrightLine2 && (
+              <>
+                <br />
+                {settings.footerCopyrightLine2}
+              </>
+            )}
+          </p>
         </div>
 
       </div>

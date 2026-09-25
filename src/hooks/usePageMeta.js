@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import { useSite } from '../cms/SiteContext';
 
 export function usePageMeta(title, description) {
+  const { siteName } = useSite();
+
   useEffect(() => {
-    const fullTitle = title ? `${title} | Exatech IT Solutions` : 'Exatech IT Solutions';
-    document.title = fullTitle;
+    document.title = title ? `${title} | ${siteName}` : siteName;
 
     if (description) {
       let tag = document.querySelector('meta[name="description"]');
@@ -14,5 +16,5 @@ export function usePageMeta(title, description) {
       }
       tag.setAttribute('content', description);
     }
-  }, [title, description]);
+  }, [title, description, siteName]);
 }
