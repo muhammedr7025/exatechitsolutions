@@ -1,32 +1,34 @@
 .heroSection {
   min-height: 100vh;
+  min-height: 100svh; /* mobile: the height without the browser's toolbars, so nothing jumps */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   background: #030305;
-  padding-top: 80px;
+  padding-top: var(--nav-space);
+  padding-bottom: 2rem;
 }
 
-/* Base VFX Overhaul */
+/* Base VFX — plain radial gradients are already soft; no blur filter needed
+   (a full-screen blur(80px) layer is expensive to paint on phones). */
 .ambientGlowPrimary {
   position: absolute;
-  top: -20%; 
+  top: -20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 80vw;
-  height: 80vh;
-  background: radial-gradient(ellipse at center, rgba(77, 184, 72, 0.15) 0%, transparent 60%);
-  filter: blur(80px);
+  width: 90vw;
+  height: 90vh;
+  background: radial-gradient(ellipse at center, rgba(77, 184, 72, 0.13) 0%, rgba(77, 184, 72, 0.04) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
 
 .textureOverlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url('/bg-web.png');
+  inset: 0;
+  background-image: url('/bg-web.webp');
   background-size: cover;
   background-position: center;
   opacity: 0.05;
@@ -53,11 +55,13 @@
   align-items: flex-start;
   text-align: left;
   max-width: 620px;
+  min-width: 0;
 }
 
 .visualCol {
   display: flex;
   justify-content: center;
+  min-width: 0;
 }
 
 /* Elegant Pill */
@@ -65,15 +69,16 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 8px 18px;
   border-radius: 40px;
-  backdrop-filter: blur(10px);
   margin-bottom: 2rem;
 }
 
 .statusDot {
+  flex-shrink: 0;
   width: 6px;
   height: 6px;
   background-color: var(--primary);
@@ -89,14 +94,14 @@
   letter-spacing: 4px;
 }
 
-/* Massive Editorial Typography */
+/* Massive Editorial Typography — scales smoothly with the screen */
 .title {
-  font-size: 4.4rem;
+  font-size: clamp(2.25rem, 0.9rem + 6vw, 4.4rem);
   font-weight: 800;
   line-height: 1.05;
   color: #fff;
   margin-bottom: 1.5rem;
-  letter-spacing: -2.5px;
+  letter-spacing: -0.035em;
 }
 
 .textHighlight {
@@ -115,10 +120,10 @@
 
 /* Cinematic Subtitle */
 .subtitle {
-  font-size: 1.25rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.45vw, 1.25rem);
   color: #8892b0;
   max-width: 650px;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   line-height: 1.7;
   font-weight: 400;
   letter-spacing: -0.2px;
@@ -127,13 +132,15 @@
 /* Action Buttons */
 .ctaGroup {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
   align-items: center;
   justify-content: flex-start;
 }
 
 .primaryBtn {
   position: relative;
+  isolation: isolate;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #fff;
   font-family: var(--font-sans);
@@ -145,9 +152,10 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   box-shadow: 0 10px 30px rgba(77, 184, 72, 0.25);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
   overflow: hidden;
 }
 
@@ -158,24 +166,32 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+.primaryBtn:active {
+  transform: scale(0.98);
+}
+
+/* Shine sweep — moved with transform (GPU) instead of `left` (re-layout every frame) */
 .btnGlow {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 50%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transform: skewX(-20deg);
+  transform: translateX(-200%) skewX(-20deg);
   animation: swipeShine 4s infinite linear;
+  pointer-events: none;
+  z-index: -1;
 }
 
 @keyframes swipeShine {
-  0% { left: -100%; }
-  20% { left: 200%; }
-  100% { left: 200%; }
+  0% { transform: translateX(-200%) skewX(-20deg); }
+  20% { transform: translateX(400%) skewX(-20deg); }
+  100% { transform: translateX(400%) skewX(-20deg); }
 }
 
 .btnIcon {
+  flex-shrink: 0;
   transition: transform 0.3s ease;
 }
 
@@ -184,9 +200,10 @@
 }
 
 .secondaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   color: rgba(255, 255, 255, 0.9);
   font-family: var(--font-sans);
   font-size: 1.1rem;
@@ -195,7 +212,7 @@
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, color 0.4s ease;
 }
 
 .secondaryBtn:hover {
@@ -214,6 +231,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  pointer-events: none;
 }
 
 .mouse {
@@ -241,8 +259,19 @@
   font-weight: 600;
 }
 
-/* Responsiveness */
+/* Short laptop screens: the indicator would sit on top of the content */
+@media (max-height: 760px) {
+  .scrollIndicator { display: none; }
+}
+
+/* ── Stacked layout (tablets & phones): message + buttons first, showcase after ── */
 @media (max-width: 1100px) {
+  .heroSection {
+    align-items: flex-start;
+    padding-top: calc(var(--nav-space) + 2rem);
+    padding-bottom: 4rem;
+  }
+
   .containerView {
     grid-template-columns: 1fr;
     text-align: center;
@@ -261,41 +290,37 @@
   }
 
   .visualCol {
-    order: -1;
-  }
-
-  .heroSection {
-    padding-bottom: 3rem;
-  }
-}
-
-@media (max-width: 1024px) {
-  .title {
-    font-size: 3.75rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .title {
-    font-size: 2.75rem;
-    letter-spacing: -1px;
-  }
-
-  .subtitle {
-    font-size: 1.15rem;
-  }
-
-  .ctaGroup {
-    flex-direction: column;
     width: 100%;
-  }
-
-  .primaryBtn, .secondaryBtn {
-    width: 100%;
-    justify-content: center;
+    max-width: 560px;
+    margin: 0 auto;
   }
 
   .scrollIndicator {
     display: none;
   }
+}
+
+@media (max-width: 768px) {
+  .statusBadge { margin-bottom: 1.5rem; padding: 7px 14px; gap: 10px; }
+  .statusText { letter-spacing: 3px; font-size: 0.75rem; }
+}
+
+@media (max-width: 560px) {
+  .heroSection { padding-top: calc(var(--nav-space) + 1.5rem); }
+
+  .ctaGroup {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1.05rem;
+  }
+
+  .containerView { gap: 3rem; }
 }

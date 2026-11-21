@@ -1,5 +1,5 @@
 .article {
-  padding-top: 150px;
+  padding-top: var(--page-top);
 }
 
 .narrow {
@@ -10,6 +10,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 44px;
   color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 500;
@@ -45,7 +46,7 @@
 }
 
 .excerpt {
-  font-size: 1.2rem;
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.2rem);
   line-height: 1.7;
   color: var(--text-muted);
   margin-bottom: 1.5rem;
@@ -103,6 +104,8 @@
 }
 
 @media (max-width: 640px) {
-  .article { padding-top: 120px; }
+  .back { margin-bottom: 1.25rem; }
+  .cover { margin: 2rem 0; border-radius: 14px; }
   .relatedGrid { grid-template-columns: 1fr; }
+  .relatedTitle { font-size: 1.45rem; }
 }

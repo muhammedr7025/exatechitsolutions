@@ -5,7 +5,7 @@
 
 .headerBlock {
   max-width: 600px;
-  margin: 0 auto 4rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4rem);
   text-align: center;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .title {
-  font-size: 2.75rem;
+  font-size: clamp(1.85rem, 1.25rem + 2.6vw, 2.75rem);
   font-weight: 800;
   color: #fff;
   letter-spacing: -1px;
@@ -97,9 +97,12 @@
 @media (max-width: 1024px) {
   .steps { grid-template-columns: repeat(2, 1fr); }
   .connector { display: none; }
-  .title { font-size: 2.25rem; }
 }
 
 @media (max-width: 600px) {
   .steps { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .step { padding: 1.75rem 1.5rem; }
 }

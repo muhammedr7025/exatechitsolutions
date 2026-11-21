@@ -2,9 +2,9 @@
   background: var(--bg-color);
   position: relative;
   overflow: hidden;
-  padding: 150px 0 0px 0;
+  padding: clamp(80px, 12vw, 150px) 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  margin-top: 5rem;
+  margin-top: clamp(2rem, 6vw, 5rem);
 }
 
 .bgGlow {
@@ -12,7 +12,7 @@
   top: -300px;
   left: 50%;
   transform: translateX(-50%);
-  width: 1000px;
+  width: min(1000px, 160vw);
   height: 600px;
   background: radial-gradient(ellipse at center, rgba(77, 184, 72, 0.1) 0%, transparent 60%);
   pointer-events: none;
@@ -29,7 +29,7 @@
 /* Central Massive Call to Action */
 .ctaBlock {
   max-width: 900px;
-  margin: 0 auto 8rem auto;
+  margin: 0 auto clamp(4rem, 10vw, 8rem);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -37,21 +37,21 @@
 }
 
 .ctaTitle {
-  font-size: 5.5rem;
+  font-size: clamp(2.5rem, 1.2rem + 6.2vw, 5.5rem);
   font-family: var(--font-display);
   font-weight: 900;
   color: #fff;
-  margin-bottom: 2rem;
-  line-height: 1;
-  letter-spacing: -2px;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 
 .ctaDesc {
   color: var(--text-muted);
-  font-size: 1.35rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.35rem);
   line-height: 1.6;
   max-width: 600px;
-  margin-bottom: 3.5rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 
 .ctaButton {
@@ -66,9 +66,12 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 100%;
+  transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
   position: relative;
+  isolation: isolate;
   overflow: hidden;
 }
 
@@ -105,9 +108,9 @@
 .footerGrid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 5rem;
+  gap: clamp(2.5rem, 6vw, 5rem);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 5rem;
+  padding-top: clamp(3rem, 7vw, 5rem);
 }
 
 .brandCol {
@@ -122,7 +125,10 @@
 }
 
 .footerLogoImg {
-  height: 60px;
+  /* the logo file is mostly transparent padding; the negative margin keeps
+     the visible mark large without a tall empty box around it */
+  height: 84px;
+  margin: -16px 0 -16px -12px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
@@ -142,7 +148,7 @@
   color: var(--text-main);
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   opacity: 0.5;
 }
 
@@ -161,9 +167,11 @@
   transition: all 0.3s ease;
 }
 
-.contactItemLink:hover {
-  transform: translateX(10px);
-  color: #fff;
+@media (hover: hover) {
+  .contactItemLink:hover {
+    transform: translateX(10px);
+    color: #fff;
+  }
 }
 
 .contactItemLink:hover .iconBox {
@@ -192,6 +200,8 @@
   flex-direction: column;
   gap: 8px;
   line-height: 1.6;
+  min-width: 0;
+  overflow-wrap: anywhere; /* long e-mail addresses wrap instead of overflowing */
 }
 
 .contactText strong {
@@ -206,7 +216,7 @@
   margin-left: calc(-50vw + 50%);
   display: flex;
   justify-content: center;
-  margin-top: 6rem;
+  margin-top: clamp(3rem, 8vw, 6rem);
   overflow: hidden;
   pointer-events: none;
   user-select: none;
@@ -217,6 +227,7 @@
   font-size: 18vw;
   font-weight: 900;
   line-height: 0.75;
+  white-space: nowrap;
   color: transparent;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
   text-transform: uppercase;
@@ -240,7 +251,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 2rem 0;
+  padding: 2rem var(--gutter);
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
   position: absolute;
   bottom: 0; left: 0; right: 0;
   width: 100%;
@@ -265,27 +277,30 @@
 }
 
 @media (max-width: 768px) {
-  .footerSection {
-    padding: 100px 0 0 0;
-  }
-  
-  .ctaTitle { font-size: 3.5rem; }
-  .ctaDesc { font-size: 1.15rem; }
-  
   .footerGrid {
     grid-template-columns: 1fr;
-    gap: 3rem;
   }
-  
+
+  .brandCol { gap: 1.25rem; }
+  .contactList { gap: 1.5rem; }
+  .iconBox { width: 44px; height: 44px; border-radius: 12px; }
+  .contactText strong { font-size: 1rem; }
+
+  .ctaButton {
+    padding: 18px 32px;
+    font-size: 1.05rem;
+  }
+
   .footerBottom {
     flex-direction: column;
     align-items: center;
     position: relative;
     gap: 2rem;
-    padding-top: 4rem;
+    padding-top: 3rem;
   }
-  
+
   .copyright {
     text-align: center;
+    font-size: 0.875rem;
   }
 }
