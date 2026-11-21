@@ -10,7 +10,7 @@ export const services = [
     order: 1,
     teaser: 'Multilingual transcription and data processing at scale, with a 60-strong team ready on day one.',
     navIcon: 'FileText',
-    bg: '/bg-ai.png',
+    bg: '/bg-ai.webp',
     intro: [
       'We hereby submit the details of our team members who are ready and capable of contributing to the **French, English, Spanish, Philippines** transcription, handwritten data conversion, and data processing project.',
     ],
@@ -66,7 +66,7 @@ export const services = [
     order: 2,
     teaser: 'High-performance, SEO-optimized web platforms built with modern frameworks.',
     navIcon: 'Monitor',
-    bg: '/bg-web.png',
+    bg: '/bg-web.webp',
     intro: [
       'We build **high-performance, scalable web platforms** that drive business growth. From corporate portals to complex SaaS platforms, our team delivers pixel-perfect, SEO-optimized solutions built with the latest technologies.',
     ],
@@ -122,7 +122,7 @@ export const services = [
     order: 3,
     teaser: 'Native and cross-platform mobile apps engineered for seamless UX.',
     navIcon: 'Smartphone',
-    bg: '/bg-web.png',
+    bg: '/bg-web.webp',
     intro: [
       'We craft **native and cross-platform mobile applications** for iOS and Android that deliver seamless user experiences. From concept to App Store launch, our team handles the complete lifecycle.',
     ],
@@ -178,7 +178,7 @@ export const services = [
     order: 4,
     teaser: 'Custom AI-powered software that automates workflows and unlocks new revenue.',
     navIcon: 'Cpu',
-    bg: '/bg-ai.png',
+    bg: '/bg-ai.webp',
     intro: [
       'We develop **cutting-edge AI-powered tools and software solutions** that automate complex workflows, enhance decision-making, and unlock new revenue streams through intelligent automation.',
     ],
@@ -234,7 +234,7 @@ export const services = [
     order: 5,
     teaser: 'Unified ERP systems tailored to your finance, HR, and supply chain workflows.',
     navIcon: 'Server',
-    bg: '/bg-erp.png',
+    bg: '/bg-erp.webp',
     intro: [
       'We design and build **custom Enterprise Resource Planning systems** that unify your operations — from inventory and HR to finance and supply chain — in one integrated platform tailored to your workflows.',
     ],
@@ -290,7 +290,7 @@ export const services = [
     order: 6,
     teaser: 'Turn raw data into dashboards, forecasts, and decisions you can act on.',
     navIcon: 'BarChart3',
-    bg: '/bg-ai.png',
+    bg: '/bg-ai.webp',
     intro: [
       'We transform raw data into **actionable business intelligence** through advanced analytics, dynamic dashboards, and predictive models that empower smarter, faster decisions.',
     ],
@@ -346,7 +346,7 @@ export const services = [
     order: 7,
     teaser: 'RPA and workflow automation that cuts manual work and errors.',
     navIcon: 'Activity',
-    bg: '/bg-erp.png',
+    bg: '/bg-erp.webp',
     intro: [
       'We engineer **intelligent automation solutions** that eliminate manual bottlenecks, reduce errors, and accelerate your business processes — from simple workflows to enterprise-scale RPA deployments.',
     ],
@@ -402,7 +402,7 @@ export const services = [
     order: 8,
     teaser: 'AI voice agents that handle customer calls 24/7 in 15+ languages.',
     navIcon: 'Mic',
-    bg: '/bg-ai.png',
+    bg: '/bg-ai.webp',
     intro: [
       'We deploy **AI-powered voice agents** that handle customer interactions 24/7 — answering queries, booking appointments, and resolving issues with natural, human-like conversations.',
     ],
@@ -458,7 +458,7 @@ export const services = [
     order: 9,
     teaser: 'High-converting storefronts and marketplaces built to scale revenue.',
     navIcon: 'ShoppingCart',
-    bg: '/bg-web.png',
+    bg: '/bg-web.webp',
     intro: [
       'We build **high-converting e-commerce platforms** that scale with your business. From boutique stores to enterprise marketplaces, our solutions drive revenue with frictionless shopping experiences.',
     ],
@@ -514,7 +514,7 @@ export const services = [
     order: 10,
     teaser: 'Data-driven SEO, paid media, and content strategies that grow your brand.',
     navIcon: 'TrendingUp',
-    bg: '/bg-web.png',
+    bg: '/bg-web.webp',
     intro: [
       'We deliver **data-driven digital marketing strategies** that amplify your brand presence, drive qualified traffic, and convert leads into loyal customers across all digital channels.',
     ],
@@ -570,7 +570,7 @@ export const services = [
     order: 11,
     teaser: 'Trained voice agents for inbound, outbound, and blended support.',
     navIcon: 'Mic',
-    bg: '/bg-ai.png',
+    bg: '/bg-ai.webp',
     intro: [
       'We provide **professional human-driven voice process services** with skilled agents trained in customer engagement, sales support, and technical helpdesk operations across multiple industries.',
     ],
@@ -626,7 +626,7 @@ export const services = [
     order: 12,
     teaser: 'End-to-end digital publishing, from manuscript to global distribution.',
     navIcon: 'BookOpen',
-    bg: '/bg-web.png',
+    bg: '/bg-web.webp',
     intro: [
       'We offer **end-to-end digital publishing solutions** — from manuscript formatting and conversion to global distribution across all major platforms, ensuring your content reaches readers worldwide.',
     ],

@@ -4,26 +4,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 2.5rem; /* room for the slide dots */
 }
 
 .deviceFrame {
   position: relative;
   width: 100%;
   max-width: 480px;
-  background: rgba(10, 10, 15, 0.85);
+  background: rgba(10, 10, 15, 0.92);
   border: 1px solid rgba(77, 184, 72, 0.25);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(77, 184, 72, 0.12);
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .deviceGlow {
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle at center, rgba(77, 184, 72, 0.35) 0%, transparent 65%);
-  filter: blur(40px);
+  background: radial-gradient(circle at center, rgba(77, 184, 72, 0.3) 0%, rgba(77, 184, 72, 0.08) 35%, transparent 65%);
   z-index: -1;
   pointer-events: none;
 }
@@ -40,6 +40,7 @@
 .macControls {
   display: flex;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .macControls span {
@@ -58,13 +59,19 @@
   align-items: center;
   gap: 6px;
   flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.5);
-  font-family: var(--font-mono, monospace);
+  font-family: var(--font-mono);
 }
+
+.fakeUrl svg { flex-shrink: 0; }
 
 .deviceScreen {
   position: relative;
@@ -88,16 +95,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(10, 10, 15, 0.85);
+  background: rgba(10, 10, 15, 0.92);
   border: 1px solid rgba(77, 184, 72, 0.3);
   border-radius: 14px;
   padding: 10px 16px;
   font-size: 0.82rem;
   font-weight: 600;
   color: #fff;
-  backdrop-filter: blur(12px);
+  white-space: nowrap;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   z-index: 5;
+  pointer-events: none;
 }
 
 .floatChipTop svg,
@@ -112,36 +120,38 @@
 }
 
 .floatChipBottom {
-  bottom: 10%;
+  bottom: calc(10% + 2.5rem);
   right: -8%;
 }
 
 .dots {
   position: absolute;
-  bottom: -2.5rem;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 2px;
 }
 
+/* 24px-tall tap target; the visible dot is the 6px content box */
 .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  padding: 9px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.2);
+  background-clip: content-box;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-.dot:hover { background: rgba(255, 255, 255, 0.4); }
+.dot:hover { background-color: rgba(255, 255, 255, 0.4); }
 
-.dotActive {
-  background: var(--primary);
-  width: 20px;
-  border-radius: 4px;
+.dotActive,
+.dotActive:hover {
+  background-color: var(--primary);
+  width: 38px;
 }
 
 @media (max-width: 1100px) {
@@ -153,6 +163,16 @@
   .floatChipBottom { right: 0; }
 }
 
-@media (max-width: 900px) {
-  .deviceFrame { max-width: 400px; }
+/* Phones: chips sit on the frame's edges instead of covering the screenshot */
+@media (max-width: 600px) {
+  .deviceFrame { border-radius: 14px; }
+  .floatChipTop, .floatChipBottom {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+  .floatChipTop svg, .floatChipBottom svg { width: 14px; height: 14px; }
+  .floatChipTop { top: -14px; left: 8px; }
+  .floatChipBottom { bottom: calc(2.5rem - 14px); right: 8px; }
 }

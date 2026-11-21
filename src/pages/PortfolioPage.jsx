@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Play, Apple, ExternalLink, X, Maximize2, Sparkles } from 'lucide-react';
 import { usePortfolio, usePortfolioPage } from '../cms/hooks';
 import { screenshotSrc, hostnameOf } from '../lib/screenshot';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { lockScroll } from '../lib/scrollLock';
 import styles from './PortfolioPage.module.css';
 
 export default function PortfolioPage() {
@@ -15,6 +16,7 @@ export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState('web');
   const [selectedProject, setSelectedProject] = useState(null);
   const [iframeLoading, setIframeLoading] = useState(true);
+  const closeBtnRef = useRef(null);
 
   const tabs = [
     { id: 'web', label: page.tabWebLabel, icon: <Globe size={18} /> },
@@ -22,14 +24,22 @@ export default function PortfolioPage() {
     { id: 'android', label: page.tabAndroidLabel, icon: <Play size={18} /> },
   ];
 
-  // Lock body scroll when modal is open
+  // While the preview is open: the page behind it doesn't scroll, Escape
+  // closes it, and focus moves to its close button. Everything is undone on
+  // close *and* if the visitor navigates away with the preview still open.
+  const isOpen = Boolean(selectedProject);
   useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [selectedProject]);
+    if (!isOpen) return undefined;
+    const unlock = lockScroll();
+    const onKey = (e) => e.key === 'Escape' && setSelectedProject(null);
+    window.addEventListener('keydown', onKey);
+    const focusTimer = setTimeout(() => closeBtnRef.current?.focus({ preventScroll: true }), 50);
+    return () => {
+      unlock();
+      window.removeEventListener('keydown', onKey);
+      clearTimeout(focusTimer);
+    };
+  }, [isOpen]);
 
   const handleProjectClick = (project) => {
     setIframeLoading(true);
@@ -78,8 +88,10 @@ export default function PortfolioPage() {
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              type="button"
               className={`${styles.tabBtn} ${activeTab === tab.id ? styles.activeTab : ''}`}
               onClick={() => setActiveTab(tab.id)}
+              aria-pressed={activeTab === tab.id}
             >
               {activeTab === tab.id && (
                 <motion.div layoutId="portfolioTabBg" className={styles.activeTabBg} transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
@@ -97,6 +109,7 @@ export default function PortfolioPage() {
             {projects[activeTab].map((project, idx) => (
               <motion.button
                 key={project.url}
+                type="button"
                 onClick={() => handleProjectClick(project)}
                 className={styles.projectCardWrapper}
                 initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -122,7 +135,10 @@ export default function PortfolioPage() {
                       src={screenshotSrc(project)}
                       alt={`${project.name} Preview`}
                       className={styles.thumbnailImg}
+                      width="960"
+                      height="600"
                       loading="lazy"
+                      decoding="async"
                     />
                     <div className={styles.thumbnailOverlay}></div>
                   </div>
@@ -161,13 +177,17 @@ export default function PortfolioPage() {
         {selectedProject && (
           <motion.div
             className={styles.modalBackdrop}
-            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            animate={{ opacity: 1, backdropFilter: 'blur(25px)' }}
-            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
               className={styles.modalDeviceWindow}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${selectedProject.name} live preview`}
               initial={{ opacity: 0, scale: 0.8, y: 60, rotateX: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 40, rotateX: -10 }}
@@ -180,7 +200,7 @@ export default function PortfolioPage() {
 
               {/* Device Window Header */}
               <div className={styles.deviceHeader}>
-                <div className={styles.macControls}>
+                <div className={styles.macControls} aria-hidden="true">
                   <span className={styles.closeBtn} onClick={() => setSelectedProject(null)}><X size={10} /></span>
                   <span></span>
                   <span className={styles.fullBtn}><Maximize2 size={10} /></span>
@@ -188,18 +208,31 @@ export default function PortfolioPage() {
 
                 <div className={styles.addressBar}>
                   <Globe size={14} className={styles.securityIcon} />
-                  {selectedProject.url}
+                  <span className={styles.addressText}>{selectedProject.url}</span>
                 </div>
 
-                <a
-                  href={selectedProject.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.externalLinkBtn}
-                  title="Open externally"
-                >
-                  <ExternalLink size={18} />
-                </a>
+                <div className={styles.headerActions}>
+                  <a
+                    href={selectedProject.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.headerIconBtn}
+                    title="Open in a new tab"
+                    aria-label="Open in a new tab"
+                  >
+                    <ExternalLink size={18} />
+                  </a>
+                  <button
+                    ref={closeBtnRef}
+                    type="button"
+                    className={styles.headerIconBtn}
+                    onClick={() => setSelectedProject(null)}
+                    title="Close preview"
+                    aria-label="Close preview"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
               </div>
 
               {/* Iframe Viewport */}
@@ -213,7 +246,7 @@ export default function PortfolioPage() {
                 )}
                 <iframe
                   src={selectedProject.url}
-                  className={styles.previewIframe}
+                  className={`${styles.previewIframe} ${iframeLoading ? styles.previewIframeLoading : ''}`}
                   sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                   onLoad={() => setIframeLoading(false)}
                   title={selectedProject.name}

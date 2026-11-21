@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer id="footer" className={styles.footerSection}>
       {/* Background Visuals */}
-      <div className={styles.bgGlow}></div>
+      <div className={styles.bgGlow} aria-hidden="true"></div>
 
       <div className={`container ${styles.footerContainer}`}>
 
@@ -35,7 +35,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className={styles.brandCol}>
             <div className={styles.logoGroup}>
-              <img src={logoUrl} alt={logoAlt} className={styles.footerLogoImg} />
+              <img src={logoUrl} alt={logoAlt} className={styles.footerLogoImg} width="979" height="528" loading="lazy" decoding="async" />
             </div>
             <p className={styles.brandDesc}>{settings.footerBrandDescription}</p>
           </div>
@@ -89,8 +89,9 @@ export default function Footer() {
 
         {/* Edge to Edge Massive Typography */}
         {settings.footerBigText && (
-          <div className={styles.massiveTextWrapper}>
-            <h1 className={styles.massiveText}>{settings.footerBigText}</h1>
+          <div className={styles.massiveTextWrapper} aria-hidden="true">
+            {/* decorative — a <div>, not a second <h1> on every page */}
+            <div className={styles.massiveText}>{settings.footerBigText}</div>
           </div>
         )}
 

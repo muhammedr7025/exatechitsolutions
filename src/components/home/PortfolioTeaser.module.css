@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: flex-end;
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
   flex-wrap: wrap;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .title {
-  font-size: 2.75rem;
+  font-size: clamp(1.85rem, 1.25rem + 2.6vw, 2.75rem);
   font-weight: 800;
   color: #fff;
   letter-spacing: -1px;
@@ -168,10 +168,15 @@
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
-  .title { font-size: 2.25rem; }
 }
 
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
   .headerRow { flex-direction: column; align-items: flex-start; }
+}
+
+/* Touch screens have no hover: show the "Visit Site" cue all the time */
+@media (hover: none) {
+  .thumbnailOverlay { opacity: 1; }
+  .viewLive { opacity: 1; transform: none; }
 }

@@ -15,8 +15,8 @@ export default function Hero({ content }) {
   return (
     <section className={styles.heroSection}>
       {/* Immersive Cinematic Background */}
-      <div className={styles.ambientGlowPrimary}></div>
-      <div className={styles.textureOverlay}></div>
+      <div className={styles.ambientGlowPrimary} aria-hidden="true"></div>
+      <div className={styles.textureOverlay} aria-hidden="true"></div>
 
       <div className={`container ${styles.containerView}`}>
         <motion.div
@@ -72,7 +72,7 @@ export default function Hero({ content }) {
                className={styles.primaryBtn}
              >
                {content.heroCtaText} <ChevronRight size={18} className={styles.btnIcon} />
-               <div className={styles.btnGlow}></div>
+               <span className={styles.btnGlow} aria-hidden="true"></span>
              </a>
              {isInternal(secondaryLink) ? (
                <Link to={secondaryLink} className={styles.secondaryBtn}>
@@ -93,6 +93,7 @@ export default function Hero({ content }) {
         {/* Scroll Indicator */}
         <motion.div
           className={styles.scrollIndicator}
+          aria-hidden="true"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}

@@ -18,8 +18,8 @@
   margin-top: 2.2em;
 }
 
-.article h2 { font-size: 1.85rem; }
-.article h3 { font-size: 1.4rem; }
+.article h2 { font-size: clamp(1.5rem, 1.25rem + 1.1vw, 1.85rem); }
+.article h3 { font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.4rem); }
 .article h4 { font-size: 1.15rem; }
 
 .article h2 + *,
@@ -74,6 +74,32 @@
   background: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 2px 7px;
+}
+
+.article pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow-wrap: normal;
+}
+
+.article pre code {
+  background: none;
+  padding: 0;
+}
+
+.article table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+@media (max-width: 640px) {
+  .article { font-size: 1.025rem; line-height: 1.8; }
+  .article blockquote { padding: 0.9rem 1.1rem; font-size: 1.05rem; }
 }
 
 .figure {

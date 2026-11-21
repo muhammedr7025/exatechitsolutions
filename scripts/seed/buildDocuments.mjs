@@ -37,7 +37,7 @@ export function assetsNeeded(existing) {
 
 /**
  * @param existing  { singletons: {id: doc}, services: [{_id, slug}], subServices: [{_id, slug, parentSlug}], portfolio: [{_id, url}] }
- * @param assets    { logo?: assetId, bg: { '/bg-ai.png': assetId } }
+ * @param assets    { logo?: assetId, bg: { '/bg-ai.webp': assetId } }
  * @returns { create: doc[], patch: {id, set}[], skipped: string[] }  (create is ordered so references resolve)
  */
 export function buildDocuments(existing, assets = { bg: {} }) {

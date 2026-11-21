@@ -39,6 +39,7 @@ Things to know:
 - `src/cms/` — queries, cache, and the hooks pages use. Pages render instantly from built-in content (`src/data/defaults/`), then swap in Sanity content. If Sanity is empty or unreachable, the built-in content stays on screen.
 - `src/sanity/` — Studio config and content schemas. `client.js`/`env.js` are safe for the public bundle; the rest is Studio-only and lazy-loaded.
 - `src/data/defaults/` — built-in copy. Doubles as the source for `npm run seed`.
+- `public/portfolio/` — bundled portfolio thumbnails (960×600 WebP), matched to projects by URL. A **Screenshot Override** uploaded in Studio wins over them; a project with neither falls back to a live screenshot from microlink.io (large PNG, rate-limited free plan — avoid relying on it).
 - `scripts/seed-sanity.mjs` — the seed script.
 
 Editing rules built into the site: a heading and its highlighted part fall back together; clearing "Address line 2" really clears it; a deleted service disappears from the site once Sanity has services.

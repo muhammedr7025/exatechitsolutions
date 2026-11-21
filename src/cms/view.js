@@ -5,9 +5,10 @@ import { imageUrl } from './image';
 import { toBlocks } from './richText';
 import { services as defaultServices } from '../data/defaults/services';
 import { subServices as defaultSubServices } from '../data/defaults/subServices';
+import { portfolioItems as defaultPortfolio } from '../data/defaults/portfolio';
 
-export const DEFAULT_LOGO = '/logo.png';
-const DEFAULT_SERVICE_BG = '/bg-web.png';
+export const DEFAULT_LOGO = '/logo.webp';
+const DEFAULT_SERVICE_BG = '/bg-web.webp';
 
 export const defaultServiceBySlug = Object.fromEntries(defaultServices.map((s) => [s.slug, s]));
 
@@ -67,11 +68,16 @@ export function subServiceDetail(raw, parent, siblings) {
   };
 }
 
+// Bundled thumbnails by project URL, so a project also gets one when it comes
+// from Sanity (as long as its URL matches a built-in project).
+const bundledThumbByUrl = Object.fromEntries(defaultPortfolio.map((p) => [p.url, p.thumb]));
+
 export const project = (raw) => ({
   name: raw.name,
   url: raw.url,
   category: raw.category,
-  screenshotUrl: imageUrl(raw.screenshot, 1200),
+  // Studio "Screenshot Override" > bundled thumbnail > live screenshot API (see lib/screenshot.js)
+  screenshotUrl: imageUrl(raw.screenshot, 1200) || raw.thumb || bundledThumbByUrl[raw.url],
 });
 
 export const client = (raw) => ({ name: raw.name, logoUrl: imageUrl(raw.logo, 400), url: raw.url });

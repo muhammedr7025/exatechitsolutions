@@ -1,5 +1,5 @@
 .servicesSection {
-  padding-top: 180px;
+  padding-top: var(--page-top);
   background: #030305;
   color: #fff;
   min-height: 100vh;
@@ -7,7 +7,7 @@
 
 .headerBlock {
   max-width: 680px;
-  margin: 0 auto 4.5rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4.5rem);
   text-align: center;
 }
 
@@ -25,11 +25,10 @@
   letter-spacing: 2px;
   margin-bottom: 1.5rem;
   border: 1px solid rgba(77, 184, 72, 0.4);
-  backdrop-filter: blur(10px);
 }
 
 .sectionTitle {
-  font-size: 3.5rem;
+  font-size: clamp(2.1rem, 1.3rem + 3.5vw, 3.5rem);
   font-weight: 800;
   line-height: 1.05;
   color: #fff;
@@ -39,7 +38,7 @@
 
 .sectionSubtitle {
   color: var(--text-muted);
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
   line-height: 1.6;
 }
 
@@ -102,7 +101,6 @@
   padding: 14px;
   display: inline-flex;
   margin-bottom: 1.5rem;
-  backdrop-filter: blur(6px);
 }
 
 .cardTitle {
@@ -143,11 +141,13 @@
 
 @media (max-width: 1024px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
-  .sectionTitle { font-size: 2.75rem; }
 }
 
 @media (max-width: 700px) {
-  .servicesSection { padding-top: 140px; }
-  .grid { grid-template-columns: 1fr; }
-  .sectionTitle { font-size: 2.25rem; }
+  .grid { grid-template-columns: 1fr; gap: 1rem; }
+  .card { padding: 1.75rem 1.5rem; }
+  .cardIcon { padding: 12px; margin-bottom: 1.1rem; }
+  .cardIcon svg { width: 34px; height: 34px; }
+  .cardTitle { font-size: 1.25rem; }
+  .sectionBadge { font-size: 0.75rem; letter-spacing: 1.5px; }
 }

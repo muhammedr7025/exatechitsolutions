@@ -1,13 +1,14 @@
 .contactSection {
-  padding-top: 180px;
+  padding-top: var(--page-top);
   min-height: 100vh;
+  min-height: 100svh;
   background: #030305;
   color: #fff;
 }
 
 .headerBlock {
   max-width: 680px;
-  margin: 0 auto 4rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 4rem);
   text-align: center;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .title {
-  font-size: 3.25rem;
+  font-size: clamp(2.1rem, 1.35rem + 3.2vw, 3.25rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -1.5px;
@@ -54,7 +55,8 @@
   background: linear-gradient(160deg, rgba(77, 184, 72, 0.15), rgba(77, 184, 72, 0.02));
   border: 1px solid rgba(77, 184, 72, 0.35);
   border-radius: 20px;
-  padding: 2.25rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  padding-right: clamp(3.5rem, 8vw, 4.5rem); /* room for the arrow */
   position: relative;
   transition: all 0.3s ease;
 }
@@ -88,8 +90,8 @@
 
 .whatsappArrow {
   position: absolute;
-  top: 2.25rem;
-  right: 2.25rem;
+  top: clamp(1.5rem, 4vw, 2.25rem);
+  right: clamp(1.5rem, 4vw, 2.25rem);
   color: var(--primary);
 }
 
@@ -140,11 +142,10 @@
   font-size: 0.88rem;
   color: var(--text-muted);
   line-height: 1.5;
+  overflow-wrap: anywhere; /* long e-mail addresses */
 }
 
 @media (max-width: 900px) {
-  .contactSection { padding-top: 140px; }
-  .title { font-size: 2.25rem; }
   .grid { grid-template-columns: 1fr; }
   .detailsGrid { grid-template-columns: 1fr; }
   .detailCard:last-child { grid-column: span 1; }
