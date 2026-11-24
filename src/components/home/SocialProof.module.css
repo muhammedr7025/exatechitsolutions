@@ -37,39 +37,67 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  max-width: 1040px;
+  margin: 0 auto;
 }
 
 .logoTile {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 190px;
-  height: 96px;
-  padding: 1rem 1.5rem;
+  flex: 0 0 160px;
+  width: 160px;
+  height: 92px;
+  padding: 12px 18px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  /* the uploaded logos sit on a #f7f7f7 background — match it so no box shows */
+  background: #f7f7f7;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  isolation: isolate;
 }
 
+/* Logos show in their real colours on every device. `darken` melts any
+   white / light-grey image background into the tile. */
 .logoTile img {
-  max-width: 100%;
-  max-height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.8;
-  transition: filter 0.3s ease, opacity 0.3s ease;
+  mix-blend-mode: darken;
 }
 
-a.logoTile:hover,
-.logoTile:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(77, 184, 72, 0.18);
+@media (hover: hover) {
+  .logoTile {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .logoTile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(77, 184, 72, 0.18);
+  }
 }
 
-.logoTile:hover img {
-  filter: grayscale(0);
-  opacity: 1;
+/* Phones: an even 2-column grid of equal tiles */
+@media (max-width: 640px) {
+  .logoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .logoTile {
+    width: auto;
+    height: 84px;
+    padding: 12px 16px;
+  }
+
+  /* odd count: centre the last tile instead of leaving it stranded */
+  .logoTile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.375rem);
+  }
 }
 
 /* ── Testimonials ── */
@@ -222,7 +250,6 @@ a.certCard:hover,
 @media (max-width: 640px) {
   .quoteCard { flex-basis: 100%; min-width: 0; }
   .certCard { width: calc(50% - 0.625rem); }
-  .logoTile { width: calc(50% - 0.5rem); height: 80px; }
 }
 
 @media (max-width: 640px) {

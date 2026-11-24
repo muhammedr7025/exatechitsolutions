@@ -15,20 +15,23 @@ export default function ClientLogos({ content, clients }) {
 
         <div className={styles.logoGrid}>
           {clients.map((client, i) => {
-            const Tag = client.url ? 'a' : 'div';
+            // The tile itself is the animated grid item — wrapping it in an extra
+            // element made its % width resolve against a shrink-to-fit box.
+            const Tile = client.url ? motion.a : motion.div;
             const link = client.url ? { href: client.url, target: '_blank', rel: 'noopener noreferrer' } : {};
             return (
-              <motion.div
+              <Tile
                 key={`${client.name}-${i}`}
+                className={styles.logoTile}
+                title={client.name}
+                {...link}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.4, delay: Math.min(i, 8) * 0.05 }}
               >
-                <Tag className={styles.logoTile} title={client.name} {...link}>
-                  <img src={client.logoUrl} alt={client.name} loading="lazy" />
-                </Tag>
-              </motion.div>
+                <img src={client.logoUrl} alt={client.name} loading="lazy" decoding="async" />
+              </Tile>
             );
           })}
         </div>
